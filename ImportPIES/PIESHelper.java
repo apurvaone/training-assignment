@@ -547,10 +547,16 @@ public final class PIESHelper {
                     }
                 }
 
-                Map < String,
-                        Object > dataResourceServiceResult = dispatcher.runSync("createDataResource", dataResourceData);
+                Object dataResourceId= null;
+                String dataResourceIdIfExists= checkDataResourceExists(fileName,delegator);
 
-                Object dataResourceId = dataResourceServiceResult.get("dataResourceId");
+                if(dataResourceIdIfExists==null) {
+                    Map<String,
+                            Object> dataResourceServiceResult = dispatcher.runSync("createDataResource", dataResourceData);
+                    dataResourceId = dataResourceServiceResult.get("dataResourceId");
+                }else{
+                    dataResourceId= dataResourceIdIfExists;
+                }
 
                 // Adding the assetType into dataResourceAttribute if it exists
                 if (assetType != null) {
@@ -630,7 +636,7 @@ public final class PIESHelper {
                 }
 
                 // Creating Content context map, for creating Content related to created data resource
-                contentEntityData.put("dataResourceId", dataResourceServiceResult.get("dataResourceId"));
+                contentEntityData.put("dataResourceId", dataResourceId);
                 contentEntityData.put("userLogin", userLogin);
                 contentEntityData.put("contentName", fileName);
                 contentEntityData.put("description", filePath);
