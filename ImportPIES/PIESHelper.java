@@ -86,7 +86,7 @@ public final class PIESHelper {
 
     // Method to check if a specific type of good identification exists for a product
     public static boolean checkUOMIdExists(String uomId,
-                                                        Delegator delegator) {
+                                           Delegator delegator) {
         GenericValue genericValue;
         boolean uomIdExists = false;
         try {
@@ -156,7 +156,7 @@ public final class PIESHelper {
         String dataResourceId = null;
         try {
             genericValue = EntityQuery.use(delegator).from("DataResource")
-                    .where("fileName", fileName)
+                    .where("dataResourceName", fileName)
                     .queryOne();
             if (genericValue != null) {
                 dataResourceId = genericValue.getString("dataResourceId");
@@ -165,6 +165,24 @@ public final class PIESHelper {
             Debug.logError("Problem in reading data of product data resource", MODULE);
         }
         return dataResourceId;
+    }
+
+
+    public static boolean checkDataResourceAttributeExists(Object dataResourceId, String attrName,
+                                                      Delegator delegator) {
+        GenericValue genericValue;
+        boolean dataResourceAttributeExists = false;
+        try {
+            genericValue = EntityQuery.use(delegator).from("DataResourceAttribute")
+                    .where("dataResourceId", dataResourceId, "attrName", attrName)
+                    .queryOne();
+            if (genericValue != null ) {
+                dataResourceAttributeExists = true;
+            }
+        } catch (GenericEntityException e) {
+            Debug.logError("Problem in reading data of DR Attribute", MODULE);
+        }
+        return dataResourceAttributeExists;
     }
 
 
@@ -527,7 +545,7 @@ public final class PIESHelper {
 
             try {
 
-            // Creating The DataResource of type "URL_RESOURCE" for each digital file
+                // Creating The DataResource of type "URL_RESOURCE" for each digital file
 
                 // Adding the data into contextMap
                 dataResourceData.put("dataResourceName", fileName);
@@ -567,8 +585,13 @@ public final class PIESHelper {
                     dataResourceAttribute.put("attrValue", assetType);
                     dataResourceAttribute.put("userLogin", userLogin);
 
-                    dispatcher.runSync("createDataResourceAttribute", dataResourceAttribute);
-                }
+                    boolean dataResourceAttributeExists= checkDataResourceAttributeExists(dataResourceId,"assetType",delegator);
+                    if (dataResourceAttributeExists){
+                        dispatcher.runSync("updateDataResourceAttribute", dataResourceAttribute);
+                    }
+                    else {
+                        dispatcher.runSync("createDataResourceAttribute", dataResourceAttribute);
+                    }                }
 
                 // Adding the representation into dataResourceAttribute if it exists
                 if (representation != null) {
@@ -579,8 +602,13 @@ public final class PIESHelper {
                     dataResourceAttribute.put("attrValue", representation);
                     dataResourceAttribute.put("userLogin", userLogin);
 
-                    dispatcher.runSync("createDataResourceAttribute", dataResourceAttribute);
-
+                    boolean dataResourceAttributeExists= checkDataResourceAttributeExists(dataResourceId,"representation",delegator);
+                    if (dataResourceAttributeExists){
+                        dispatcher.runSync("updateDataResourceAttribute", dataResourceAttribute);
+                    }
+                    else {
+                        dispatcher.runSync("createDataResourceAttribute", dataResourceAttribute);
+                    }
                 }
 
                 // Adding the background into dataResourceAttribute if it exists
@@ -592,7 +620,14 @@ public final class PIESHelper {
                     dataResourceAttribute.put("attrValue", background);
                     dataResourceAttribute.put("userLogin", userLogin);
 
-                    dispatcher.runSync("createDataResourceAttribute", dataResourceAttribute);
+
+                    boolean dataResourceAttributeExists= checkDataResourceAttributeExists(dataResourceId,"background",delegator);
+                    if (dataResourceAttributeExists){
+                        dispatcher.runSync("updateDataResourceAttribute", dataResourceAttribute);
+                    }
+                    else {
+                        dispatcher.runSync("createDataResourceAttribute", dataResourceAttribute);
+                    }
 
                 }
 
@@ -605,8 +640,13 @@ public final class PIESHelper {
                     dataResourceAttribute.put("attrValue", assetId);
                     dataResourceAttribute.put("userLogin", userLogin);
 
-                    dispatcher.runSync("createDataResourceAttribute", dataResourceAttribute);
-
+                    boolean dataResourceAttributeExists= checkDataResourceAttributeExists(dataResourceId,"assetId",delegator);
+                    if (dataResourceAttributeExists){
+                        dispatcher.runSync("updateDataResourceAttribute", dataResourceAttribute);
+                    }
+                    else {
+                        dispatcher.runSync("createDataResourceAttribute", dataResourceAttribute);
+                    }
                 }
 
                 // Adding the resolution into dataResourceAttribute if it exists
@@ -618,8 +658,13 @@ public final class PIESHelper {
                     dataResourceAttribute.put("attrValue", resolution);
                     dataResourceAttribute.put("userLogin", userLogin);
 
-                    dispatcher.runSync("createDataResourceAttribute", dataResourceAttribute);
-
+                    boolean dataResourceAttributeExists= checkDataResourceAttributeExists(dataResourceId,"resolution",delegator);
+                    if (dataResourceAttributeExists){
+                        dispatcher.runSync("updateDataResourceAttribute", dataResourceAttribute);
+                    }
+                    else {
+                        dispatcher.runSync("createDataResourceAttribute", dataResourceAttribute);
+                    }
                 }
 
                 // Adding the fileSize into dataResourceAttribute if it exists
@@ -631,8 +676,13 @@ public final class PIESHelper {
                     dataResourceAttribute.put("attrValue", fileSize);
 
                     dataResourceAttribute.put("userLogin", userLogin);
-                    dispatcher.runSync("createDataResourceAttribute", dataResourceAttribute);
-
+                    boolean dataResourceAttributeExists= checkDataResourceAttributeExists(dataResourceId,"fileSize",delegator);
+                    if (dataResourceAttributeExists){
+                        dispatcher.runSync("updateDataResourceAttribute", dataResourceAttribute);
+                    }
+                    else {
+                        dispatcher.runSync("createDataResourceAttribute", dataResourceAttribute);
+                    }
                 }
 
                 // Creating Content context map, for creating Content related to created data resource
@@ -660,4 +710,4 @@ public final class PIESHelper {
 
 
 
-}
+}   
