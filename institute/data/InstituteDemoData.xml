@@ -21,7 +21,152 @@ under the License.
 <entity-engine-xml>
 
 
-   
+    <!-- Data Model:Educational Institute
+        Parties involved: Institute,Student
+        Relationship: Institute-Student
+    -->
+
+
+    <Party partyId="acropolis" statusId="PARTY_ENABLED" partyTypeId="CORPORATION"/>
+    <Party partyId="student1" statusId="PARTY_ENABLED" partyTypeId="PERSON"/>
+    <Party partyId="student2" statusId="PARTY_ENABLED" partyTypeId="PERSON"/>
+    <Party partyId="student3" statusId="PARTY_ENABLED" partyTypeId="PERSON"/>
+    <Party partyId="student4" statusId="PARTY_ENABLED" partyTypeId="PERSON"/>
+    <Party partyId="student5" statusId="PARTY_ENABLED" partyTypeId="PERSON"/>
+
+    <Party partyId="computer_science" statusId="PARTY_ENABLED" partyTypeId="PARTY_GROUP"/>
+    <Party partyId="mechanical" statusId="PARTY_ENABLED" partyTypeId="PARTY_GROUP"/>
+
+
+    <!-- Person -->
+
+    <Person partyId="student1" firstName="Rishabh" lastName="Makhar" gender="M" birthDate="2001-03-15"/>
+    <Person partyId="student2" firstName="Prakhar" middleName= "Singh" lastName="Yadav" gender="M" birthDate="2001-03-15"/>
+    <Person partyId="student3" firstName="Kunal" lastName="Bhade" gender="M" birthDate="2001-03-15"/>
+    <Person partyId="student4" firstName="Suraj" lastName="Soni" gender="M" birthDate="2001-03-15"/>
+    <Person partyId="student5" firstName="Sanskar"  lastName="Soni" gender="M" birthDate="2001-03-15"/>
+
+
+    <!-- PartyGroup -->
+    <PartyGroup partyId="acropolis" groupName="EducationalInstitutes" numEmployees="50" annualRevenue="1,00,00,000" logoImageUrl="https://aitr.ac.in/wp-content/uploads/2023/03/unnamed-1-2048x405.png"/>
+    <PartyGroup partyId="computer_science" groupName="Departments" numEmployees="20" />
+    <PartyGroup partyId="mechanical" groupName="Departments" numEmployees="10"/>
+
+
+    <!-- Role Type -->
+        <RoleType roleTypeId="ORGANIZATION_ROLE" description="Educational institute" />
+        <RoleType roleTypeId="CUSTOMER" description="Student" />
+
+    <!-- Party Role -->
+    <PartyRole partyId="acropolis" roleTypeId="ORGANIZATION_ROLE" />
+    <PartyRole partyId="student1" roleTypeId="CUSTOMER" />
+    <PartyRole partyId="student2" roleTypeId="CUSTOMER" />
+    <PartyRole partyId="student3" roleTypeId="CUSTOMER" />
+    <PartyRole partyId="student4" roleTypeId="CUSTOMER" />
+    <PartyRole partyId="student5" roleTypeId="CUSTOMER" />
+    <PartyRole partyId="computer_science" roleTypeId="DEPARTMENT" />
+    <PartyRole partyId="mechanical" roleTypeId="DEPARTMENT" />
+
+    <!-- Party Relationship -->
+
+    <PartyRelationship partyIdFrom="acropolis" roleTypeIdFrom="ORGANIZATION_ROLE" partyIdTo="student1" roleTypeIdTo="CUSTOMER" fromDate="2019-07-01 00:00:00.000" partyRelationshipTypeId="CUSTOMER_REL"/>
+    <PartyRelationship partyIdFrom="acropolis" roleTypeIdFrom="ORGANIZATION_ROLE" partyIdTo="student2" roleTypeIdTo="CUSTOMER" fromDate="2019-07-06 00:00:00.000" partyRelationshipTypeId="CUSTOMER_REL"/>
+    <PartyRelationship partyIdFrom="acropolis" roleTypeIdFrom="ORGANIZATION_ROLE" partyIdTo="student3" roleTypeIdTo="CUSTOMER" fromDate="2019-08-07 00:00:00.000" partyRelationshipTypeId="CUSTOMER_REL"/>
+    <PartyRelationship partyIdFrom="acropolis" roleTypeIdFrom="ORGANIZATION_ROLE" partyIdTo="student4" roleTypeIdTo="CUSTOMER" fromDate="2019-08-02 00:00:00.000" partyRelationshipTypeId="CUSTOMER_REL"/>
+    <PartyRelationship partyIdFrom="acropolis" roleTypeIdFrom="ORGANIZATION_ROLE" partyIdTo="student5" roleTypeIdTo="CUSTOMER" fromDate="2019-09-03 00:00:00.000" partyRelationshipTypeId="CUSTOMER_REL"/>
+
+    <!-- ContactMech -->
+
+    <ContactMech contactMechId="s1_phone" contactMechTypeId="TELECOM_NUMBER"/>
+    <ContactMech contactMechId="s2_phone" contactMechTypeId="TELECOM_NUMBER"/>
+    <ContactMech contactMechId="s3_phone" contactMechTypeId="TELECOM_NUMBER"/>
+    <ContactMech contactMechId="s4_phone" contactMechTypeId="TELECOM_NUMBER"/>
+    <ContactMech contactMechId="s5_phone" contactMechTypeId="TELECOM_NUMBER"/>
+    <ContactMech contactMechId="institute_phone" contactMechTypeId="TELECOM_NUMBER"/>
+
+    <ContactMech contactMechId="s1_email" contactMechTypeId="EMAIL_ADDRESS" infoString="rishabh112@gmail.com" />
+    <ContactMech contactMechId="s2_email" contactMechTypeId="EMAIL_ADDRESS" infoString="prakhar89@gmail.com" />
+    <ContactMech contactMechId="s3_email" contactMechTypeId="EMAIL_ADDRESS" infoString="kunal191@gmail.com" />
+    <ContactMech contactMechId="s4_email" contactMechTypeId="EMAIL_ADDRESS" infoString="suraj66@gmail.com" />
+    <ContactMech contactMechId="s5_email" contactMechTypeId="EMAIL_ADDRESS" infoString="sanskar211@gmail.com" />
+    <ContactMech contactMechId="institute_email" contactMechTypeId="EMAIL_ADDRESS" infoString="acropolisinstutions@gmail.com" />
+
+    <ContactMech contactMechId="s1_address" contactMechTypeId="POSTAL_ADDRESS"  />
+    <ContactMech contactMechId="s2_address" contactMechTypeId="POSTAL_ADDRESS"  />
+    <ContactMech contactMechId="s3_address" contactMechTypeId="POSTAL_ADDRESS"  />
+    <ContactMech contactMechId="s4_address" contactMechTypeId="POSTAL_ADDRESS"  />
+    <ContactMech contactMechId="s5_address" contactMechTypeId="POSTAL_ADDRESS"  />
+    <ContactMech contactMechId="institute_address" contactMechTypeId="POSTAL_ADDRESS" />
+
+
+    <!--PartyContactMechPurpose-->
+
+    <PartyContactMechPurpose partyId="acropolis" contactMechId="institute_phone" contactMechPurposeTypeId="PHONE_WORK" fromDate="2008-07-01 00:00:00.000" />
+    <PartyContactMechPurpose partyId="acropolis" contactMechId="institute_email" contactMechPurposeTypeId="PRIMARY_EMAIL" fromDate="2008-07-01 00:00:00.000" />
+    <PartyContactMechPurpose partyId="acropolis" contactMechId="institute_address" contactMechPurposeTypeId="BILLING_LOCATION" fromDate="2008-07-01 00:00:00.000" />
+
+    <PartyContactMechPurpose partyId="student1" contactMechId="s1_phone" contactMechPurposeTypeId="PHONE_WORK" fromDate="2008-07-01 00:00:00.000" />
+    <PartyContactMechPurpose partyId="student1" contactMechId="s1_email" contactMechPurposeTypeId="PRIMARY_EMAIL" fromDate="2008-07-01 00:00:00.000" />
+    <PartyContactMechPurpose partyId="student1" contactMechId="s1_address" contactMechPurposeTypeId="BILLING_LOCATION" fromDate="2008-07-01 00:00:00.000" />
+
+    <PartyContactMechPurpose partyId="student2" contactMechId="s2_phone" contactMechPurposeTypeId="PHONE_WORK" fromDate="2008-07-01 00:00:00.000" />
+    <PartyContactMechPurpose partyId="student2" contactMechId="s2_email" contactMechPurposeTypeId="PRIMARY_EMAIL" fromDate="2008-07-01 00:00:00.000" />
+    <PartyContactMechPurpose partyId="student2" contactMechId="s2_address" contactMechPurposeTypeId="BILLING_LOCATION" fromDate="2008-07-01 00:00:00.000" />
+
+    <PartyContactMechPurpose partyId="student3" contactMechId="s3_phone" contactMechPurposeTypeId="PHONE_WORK" fromDate="2008-07-01 00:00:00.000" />
+    <PartyContactMechPurpose partyId="student3" contactMechId="s3_email" contactMechPurposeTypeId="PRIMARY_EMAIL" fromDate="2008-07-01 00:00:00.000" />
+    <PartyContactMechPurpose partyId="student3" contactMechId="s3_address" contactMechPurposeTypeId="BILLING_LOCATION" fromDate="2008-07-01 00:00:00.000" />
+
+
+    <PartyContactMechPurpose partyId="student4" contactMechId="s4_phone" contactMechPurposeTypeId="PHONE_WORK" fromDate="2008-07-01 00:00:00.000" />
+    <PartyContactMechPurpose partyId="student4" contactMechId="s4_email" contactMechPurposeTypeId="PRIMARY_EMAIL" fromDate="2008-07-01 00:00:00.000" />
+    <PartyContactMechPurpose partyId="student4" contactMechId="s4_address" contactMechPurposeTypeId="BILLING_LOCATION" fromDate="2008-07-01 00:00:00.000" />
+
+    <PartyContactMechPurpose partyId="student5" contactMechId="s5_phone" contactMechPurposeTypeId="PHONE_WORK" fromDate="2008-07-01 00:00:00.000" />
+    <PartyContactMechPurpose partyId="student5" contactMechId="s5_email" contactMechPurposeTypeId="PRIMARY_EMAIL" fromDate="2008-07-01 00:00:00.000" />
+    <PartyContactMechPurpose partyId="student5" contactMechId="s5_address" contactMechPurposeTypeId="BILLING_LOCATION" fromDate="2008-07-01 00:00:00.000" />
+
+    <!-- TelecomNumber -->
+
+    <TelecomNumber contactMechId="s1_phone" contactNumber="9867654156" countryCode="+91" />
+    <TelecomNumber contactMechId="s2_phone" contactNumber="9867894123" countryCode="+91"/>
+    <TelecomNumber contactMechId="s3_phone" contactNumber="8931211971" countryCode="+91"/>
+    <TelecomNumber contactMechId="s4_phone" contactNumber="9867615456" countryCode="+91"/>
+    <TelecomNumber contactMechId="s5_phone" contactNumber="7812225456" countryCode="+91"/>
+    <TelecomNumber contactMechId="institute_phone" contactNumber="9182765456" countryCode="+91"/>
+    <!-- PostalAddress -->
+
+    <PostalAddress contactMechId="s1_address" address1="ward no 08, Nehru Nagar" address2="Rajwada" city="Indore" postalCode="452010"/>
+    <PostalAddress contactMechId="s2_address" address1="56,Ranibhag main" address2="Khandwa Road" city="Indore" postalCode="452020"/>
+    <PostalAddress contactMechId="s3_address" address1="ward no 5,Ganesh Nagar" address2="Khandwa Road" city="Indore" postalCode="452020"/>
+    <PostalAddress contactMechId="s4_address" address1="191, Scheme no 54" address2=" Vijay Nagar" city="Indore" postalCode="452010"/>
+    <PostalAddress contactMechId="s5_address" address1="ward no 11,AB road" address2="New Palasia" city="Indore" postalCode="452010"/>
+    <PostalAddress contactMechId="institute_address" address1="15,Manglia Square" address2="Manglia" city="Indore" postalCode="452010"/>
+
+
+    <!-- PartyContactMech -->
+
+    <PartyContactMech partyId="acropolis" contactMechId="institute_phone" fromDate="2008-01-01 00:00:00.000"/>
+    <PartyContactMech partyId="student1" contactMechId="s1_phone" fromDate="2019-09-03 00:00:00.000"/>
+    <PartyContactMech partyId="student2" contactMechId="s2_phone" fromDate="2019-08-02 00:00:00.000"/>
+    <PartyContactMech partyId="student3" contactMechId="s3_phone" fromDate="2019-08-07 00:00:00.000"/>
+    <PartyContactMech partyId="student4" contactMechId="s4_phone" fromDate="2019-07-06 00:00:00.000"/>
+    <PartyContactMech partyId="student5" contactMechId="s5_phone" fromDate="2019-07-01 00:00:00.000"/>
+
+    <PartyContactMech partyId="student1" contactMechId="s1_email" fromDate="2019-09-03 00:00:00.000"/>
+    <PartyContactMech partyId="student2" contactMechId="s2_email" fromDate="2019-08-02 00:00:00.000"/>
+    <PartyContactMech partyId="student3" contactMechId="s3_email" fromDate="2019-08-07 00:00:00.000"/>
+    <PartyContactMech partyId="student4" contactMechId="s4_email" fromDate="2019-07-06 00:00:00.000"/>
+    <PartyContactMech partyId="student5" contactMechId="s5_email" fromDate="2019-07-01 00:00:00.000"/>
+    <PartyContactMech partyId="acropolis" contactMechId="institute_email" fromDate="2019-07-01 00:00:00.000"/>
+
+    <PartyContactMech partyId="student1" contactMechId="s1_address" fromDate="2019-09-03 00:00:00.000"/>
+    <PartyContactMech partyId="student2" contactMechId="s2_address" fromDate="2019-08-02 00:00:00.000"/>
+    <PartyContactMech partyId="student3" contactMechId="s3_address" fromDate="2019-08-07 00:00:00.000"/>
+    <PartyContactMech partyId="student4" contactMechId="s4_address" fromDate="2019-07-06 00:00:00.000"/>
+    <PartyContactMech partyId="student5" contactMechId="s5_address" fromDate="2019-07-01 00:00:00.000"/>
+    <PartyContactMech partyId="acropolis" contactMechId="institute_address" fromDate="2019-07-01 00:00:00.000"/>
+
 
 </entity-engine-xml>
 
