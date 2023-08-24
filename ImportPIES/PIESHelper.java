@@ -125,19 +125,21 @@ public final class PIESHelper {
     // Method to check if a specific product description exists for a product
     public static String checkProductDescriptionExists(String productId, String descriptionCode,
                                                        Delegator delegator) {
+
+        Debug.log("dexists "+productId+ " " + descriptionCode + " ");
         GenericValue genericValue;
-        String descriptionContentId = null;
+        String descriptionDataResourceId= null;
         try {
             genericValue = EntityQuery.use(delegator).from("ProductContentAndInfo")
                     .where("productId", productId, "contentName", descriptionCode)
                     .queryOne();
             if (genericValue != null && productId.equals(genericValue.getString("productId"))) {
-                descriptionContentId = genericValue.getString("contentId");
+                descriptionDataResourceId = genericValue.getString("dataResourceId");
             }
         } catch (GenericEntityException e) {
             Debug.logError("Problem in reading data of product descriptions", MODULE);
         }
-        return descriptionContentId;
+        return descriptionDataResourceId;
     }
 
 
@@ -168,6 +170,7 @@ public final class PIESHelper {
     }
 
 
+    // Method to check if a DataResourceAttribute (for digital file) exists
     public static boolean checkDataResourceAttributeExists(Object dataResourceId, String attrName,
                                                       Delegator delegator) {
         GenericValue genericValue;
@@ -479,40 +482,60 @@ public final class PIESHelper {
         }
     }
 
+
     //Method to process Descriptions of the Part
     public static void processDescriptionData(List < List < String >> descriptionContentData, LocalDispatcher dispatcher, Delegator delegator, String partNumber, GenericValue userLogin) {
 
-        // Initialize contextMaps to store the parameters
-        Map <String,Object> electronicTextEntityData = new HashMap < >();
-        Map <String,Object> contentEntityData = new HashMap < >();
-        Map <String,Object> productContentEntity = new HashMap < >();
-        Map <String,Object> sContext = new HashMap < >();
+
+    // Initialize contextMaps to store the parameters
+    Map<String, Object> electronicTextEntityData = new HashMap<>();
+    Map<String, Object> contentEntityData = new HashMap<>();
+    Map<String, Object> productContentEntity = new HashMap<>();
+    Map<String, Object> sContext = new HashMap<>();
 
 
-        // Iterate through each Description Information
-        for (int i = 0; i < descriptionContentData.size(); i++) {
+    // Iterate through each Description Information
+    for (int i = 0; i < descriptionContentData.size(); i++) {
 
-            String contentName = descriptionContentData.get(i).get(0);
-            String localeString = descriptionContentData.get(i).get(1);
-            String description = descriptionContentData.get(i).get(2);
+        String contentName = descriptionContentData.get(i).get(0);
+        String localeString = descriptionContentData.get(i).get(1);
+        String description = descriptionContentData.get(i).get(2);
 
+        // Check if the description with the description code exists
+        String dataResourceIdIfExists = checkProductDescriptionExists(partNumber, contentName, delegator);
+
+        // If description exists, update the old text with new text
+        if (dataResourceIdIfExists != null) {
+
+            Map<String, Object> updateDataResourceContext = new HashMap<>();
             try {
-
+                updateDataResourceContext.put("textData", description);
+                updateDataResourceContext.put("dataResourceId", dataResourceIdIfExists);
+                updateDataResourceContext.put("userLogin", userLogin);
+                Object dataResourceServiceResult= dispatcher.runSync("updateElectronicText", updateDataResourceContext);
+                System.out.println("\n\n"+ dataResourceServiceResult);
+            } catch (GenericServiceException e) {
+                Debug.log("\n\n\nGSerror" + e);
+            }
+        } else {
+            try {
                 // Adding the data into contextMap
                 sContext.put("productId", partNumber);
                 sContext.put("userLogin", userLogin);
                 sContext.put("contentName", contentName);
                 sContext.put("productContentTypeId", "DESCRIPTION");
                 sContext.put("text", description);
+                sContext.put("localeString", localeString);
 
                 // Service call to insert data
                 dispatcher.runSync("createSimpleTextContentForProduct", sContext);
 
-            } catch(GenericServiceException e) {
+            } catch (GenericServiceException e) {
                 Debug.log("\n\n\nGSerror" + e);
             }
         }
 
+    }
     }
 
 
@@ -565,15 +588,19 @@ public final class PIESHelper {
                     }
                 }
 
+                // check if the data resource with given file name exists
                 Object dataResourceId= null;
                 String dataResourceIdIfExists= checkDataResourceExists(fileName,delegator);
 
+                // If dataResource exists then update it else create a new one
                 if(dataResourceIdIfExists==null) {
                     Map<String,
                             Object> dataResourceServiceResult = dispatcher.runSync("createDataResource", dataResourceData);
                     dataResourceId = dataResourceServiceResult.get("dataResourceId");
                 }else{
                     dataResourceId= dataResourceIdIfExists;
+                    dataResourceData.put("dataResourceId",dataResourceId);
+                    dispatcher.runSync("updateDataResource", dataResourceData);
                 }
 
                 // Adding the assetType into dataResourceAttribute if it exists
@@ -585,6 +612,7 @@ public final class PIESHelper {
                     dataResourceAttribute.put("attrValue", assetType);
                     dataResourceAttribute.put("userLogin", userLogin);
 
+                    // Check if data resource attribute exists, create a new if not else update
                     boolean dataResourceAttributeExists= checkDataResourceAttributeExists(dataResourceId,"assetType",delegator);
                     if (dataResourceAttributeExists){
                         dispatcher.runSync("updateDataResourceAttribute", dataResourceAttribute);
@@ -602,6 +630,7 @@ public final class PIESHelper {
                     dataResourceAttribute.put("attrValue", representation);
                     dataResourceAttribute.put("userLogin", userLogin);
 
+                    // Check if data resource attribute exists, create a new if not else update
                     boolean dataResourceAttributeExists= checkDataResourceAttributeExists(dataResourceId,"representation",delegator);
                     if (dataResourceAttributeExists){
                         dispatcher.runSync("updateDataResourceAttribute", dataResourceAttribute);
@@ -620,7 +649,7 @@ public final class PIESHelper {
                     dataResourceAttribute.put("attrValue", background);
                     dataResourceAttribute.put("userLogin", userLogin);
 
-
+                    // Check if data resource attribute exists, create a new if not else update
                     boolean dataResourceAttributeExists= checkDataResourceAttributeExists(dataResourceId,"background",delegator);
                     if (dataResourceAttributeExists){
                         dispatcher.runSync("updateDataResourceAttribute", dataResourceAttribute);
@@ -640,6 +669,7 @@ public final class PIESHelper {
                     dataResourceAttribute.put("attrValue", assetId);
                     dataResourceAttribute.put("userLogin", userLogin);
 
+                    // Check if data resource attribute exists, create a new if not else update
                     boolean dataResourceAttributeExists= checkDataResourceAttributeExists(dataResourceId,"assetId",delegator);
                     if (dataResourceAttributeExists){
                         dispatcher.runSync("updateDataResourceAttribute", dataResourceAttribute);
@@ -658,6 +688,7 @@ public final class PIESHelper {
                     dataResourceAttribute.put("attrValue", resolution);
                     dataResourceAttribute.put("userLogin", userLogin);
 
+                    // Check if data resource attribute exists, create a new if not else update
                     boolean dataResourceAttributeExists= checkDataResourceAttributeExists(dataResourceId,"resolution",delegator);
                     if (dataResourceAttributeExists){
                         dispatcher.runSync("updateDataResourceAttribute", dataResourceAttribute);
@@ -675,6 +706,7 @@ public final class PIESHelper {
                     dataResourceAttribute.put("attrName", "fileSize");
                     dataResourceAttribute.put("attrValue", fileSize);
 
+                    // Check if data resource attribute exists, create a new if not else update
                     dataResourceAttribute.put("userLogin", userLogin);
                     boolean dataResourceAttributeExists= checkDataResourceAttributeExists(dataResourceId,"fileSize",delegator);
                     if (dataResourceAttributeExists){
@@ -696,7 +728,15 @@ public final class PIESHelper {
                 // Creating ProductContent, to create association with content and product
                 productContentEntity.put("contentId", contentServiceResult.get("contentId"));
                 productContentEntity.put("productId", partNumber);
-                productContentEntity.put("productContentTypeId", "Image");
+
+                // set productContentTypeId as per fileType
+                if (fileType.equalsIgnoreCase("jpg") || (fileType.equalsIgnoreCase("jpeg")) ) {
+                    productContentEntity.put("productContentTypeId", "Image");
+                }
+                else{
+                    productContentEntity.put("productContentTypeId","DIGITAL_DOWNLOAD");
+                }
+
                 productContentEntity.put("userLogin", userLogin);
 
                 dispatcher.runSync("createProductContent", productContentEntity);
@@ -708,6 +748,4 @@ public final class PIESHelper {
 
     }
 
-
-
-}   
+}
