@@ -1,5 +1,7 @@
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.stream.Collectors;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.Map;
 import org.apache.ofbiz.base.util.Debug;
 import org.apache.ofbiz.entity.Delegator;
@@ -87,13 +89,13 @@ public final class PIESHelper {
 
     // Method to check if a specific type of product category member exists for a product
     public static boolean categoryMemberExists(String productId, String partTerminologyId,
-                                                        Delegator delegator) {
+                                               Delegator delegator) {
         GenericValue genericValue;
         boolean productCategoryMemberExists = false;
         try {
-            genericValue = EntityQuery.use(delegator).from("ProductCategoryMember")
-                    .where("productId", productId, "productCatgoryId", partTerminologyId)
-                    .queryOne();
+            genericValue = EntityQuery.use(delegator).from("ProductAndCategoryMember")
+                    .where("productId", productId, "productCategoryId", partTerminologyId)
+                    .queryFirst();
             if (genericValue != null && productId.equals(genericValue.getString("productId"))) {
                 productCategoryMemberExists = true;
             }
@@ -179,6 +181,25 @@ public final class PIESHelper {
         return contentId;
     }
 
+    // Method to check if a product assoc exists betten product and Interchange
+    public static boolean checkProductAssocExists(String productId, String productIdTo,String reason,
+                                                   Delegator delegator) {
+
+        GenericValue genericValue;
+        boolean assocExists= false;
+        try {
+            genericValue = EntityQuery.use(delegator).from("ProductAssoc")
+                    .where("productId", productId, "productIdTo", productIdTo, "reason",reason)
+                    .queryFirst();
+            if (genericValue != null && productId.equals(genericValue.getString("productId"))) {
+                assocExists = true;
+            }
+        } catch (GenericEntityException e) {
+            Debug.logError("Problem in reading data of product assoc", MODULE);
+        }
+        return assocExists;
+    }
+
 
 
     // Method to get the current date and time in a specific format
@@ -232,7 +253,6 @@ public final class PIESHelper {
 
         // Initialize a contextMap to store the parameters
         Map < String, Object > productEntityMap = new HashMap < >();
-
 
         // Getting the parsed data for Product
         String partNumber = itemData.get("PartNumber");
@@ -375,7 +395,6 @@ public final class PIESHelper {
     //Method to process Categories of the product (partTerminologyId here)
     public static void processCategories(String partTerminologyId, LocalDispatcher dispatcher, Delegator delegator, String partNumber, GenericValue userLogin) {
 
-        Debug.log("\n\nPtermID " + partTerminologyId);
         // Initialize a contextMaps to store the parameters
         Map <String,Object> categoryContext = new HashMap < >();
         Map <String,Object> categoryMemberContext = new HashMap < >();
@@ -391,10 +410,9 @@ public final class PIESHelper {
                 categoryContext.put("categoryName", "Part Terminology Category");
                 categoryContext.put("userLogin", userLogin);
 
-                Map<String,
-                        Object> result= dispatcher.runSync("createProductCategory", categoryContext);
+                dispatcher.runSync("createProductCategory", categoryContext);
 
-                System.out.println(result);
+
             }
 
             // adding the data into contextMap to be passed
@@ -402,14 +420,15 @@ public final class PIESHelper {
             categoryMemberContext.put("productCategoryId", partTerminologyId);
             categoryMemberContext.put("userLogin", userLogin);
 
-            //Check if preoduct categpry member exists, create if it does not exist
-            boolean categoryMemberExists = checkGoodIdentificationExists(partNumber,partTerminologyId, delegator);
+            boolean categoryMemberExists = categoryMemberExists(partNumber,partTerminologyId, delegator);
+
+            // if productAttribute Exists, then update it else create a new ProductAttribute
             if(!categoryMemberExists)
-            {Map<String,
-                        Object> result=dispatcher.runSync("addProductToCategory", categoryMemberContext);
-                System.out.println(result);
+            {
+            dispatcher.runSync("addProductToCategory", categoryMemberContext);
 
             }
+
 
         } catch(GenericServiceException e) {
             Debug.log("\n\n\nGSerror" + e);
@@ -447,7 +466,6 @@ public final class PIESHelper {
             Map < String,
                     Object > productAttributeContext = new HashMap < >();
 
-            System.out.println(productAttributeData.get(i).get(0) + " " + productAttributeData.get(i).get(1));
             String attributeName = productAttributeData.get(i).get(0);
             String attributeValue = productAttributeData.get(i).get(1);
 
@@ -555,7 +573,11 @@ public final class PIESHelper {
 
                 }
 
-                // create Product Association
+                // check if assoc exists
+                boolean assocExists= checkProductAssocExists(partNumber,partNumberTo,typeCode,delegator);
+
+                // create Product Association if not exists
+                if(!assocExists)
                 dispatcher.runSync("createProductAssoc", productAssocData);
 
             } catch(GenericServiceException e) {
@@ -598,7 +620,6 @@ public final class PIESHelper {
                     updateDataResourceContext.put("dataResourceId", dataResourceIdIfExists);
                     updateDataResourceContext.put("userLogin", userLogin);
                     Object dataResourceServiceResult= dispatcher.runSync("updateElectronicText", updateDataResourceContext);
-                    System.out.println("\n\n"+ dataResourceServiceResult);
                 } catch (GenericServiceException e) {
                     Debug.log("\n\n\nGSerror" + e);
                 }
@@ -678,21 +699,16 @@ public final class PIESHelper {
                 // check if the data resource with given file name exists
                 Object dataResourceId= null;
                 String dataResourceIdIfExists= checkDataResourceExists(fileName,delegator);
-                Debug.log("DSID\n\n\n " + dataResourceIdIfExists + "\n" + fileName);
-
 
                 // If dataResource exists then update it else create a new one
                 if(dataResourceIdIfExists==null) {
                     Map<String,
                             Object> dataResourceServiceResult = dispatcher.runSync("createDataResource", dataResourceData);
                     dataResourceId = dataResourceServiceResult.get("dataResourceId");
-                    Debug.log("here1" +dataResourceIdIfExists);
                 }else{
                     dataResourceId= dataResourceIdIfExists;
                     dataResourceData.put("dataResourceId",dataResourceId);
                     dispatcher.runSync("updateDataResource", dataResourceData);
-                    Debug.log("here2" +dataResourceIdIfExists);
-
 
                 }
 
