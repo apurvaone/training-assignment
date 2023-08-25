@@ -142,6 +142,26 @@ public final class PIESHelper {
         return descriptionDataResourceId;
     }
 
+    // Method to check if a content exists between dataResource and productId
+    public static String checkProductContentExists(Object productId, Object dataResourceId,
+                                                   Delegator delegator) {
+
+        GenericValue genericValue;
+        String contentId= null;
+        try {
+            genericValue = EntityQuery.use(delegator).from("ProductContentAndInfo")
+                    .where("productId", productId, "dataResourceId", dataResourceId)
+                    .queryOne();
+            if (genericValue != null && productId.equals(genericValue.getString("productId"))) {
+                contentId = genericValue.getString("contentId");
+            }
+        } catch (GenericEntityException e) {
+            Debug.logError("Problem in reading data of product content", MODULE);
+        }
+        return contentId;
+    }
+
+
 
     // Method to get the current date and time in a specific format
     public static String getFormatedCurrentDateTime() {
@@ -539,7 +559,6 @@ public final class PIESHelper {
     }
 
 
-    //Method to process Digital Assets of the Part
     public static void processDigitalAssets(List < Map < String, String >> digitalFiles, LocalDispatcher dispatcher, Delegator delegator, String partNumber, GenericValue userLogin) {
 
         // Initialize contextMaps to store the parameters
@@ -552,8 +571,11 @@ public final class PIESHelper {
                 Object > productContentEntity = new HashMap < >();
 
 
+
+
         // Iterate through each Digital File Information
         for (int i = 0; i < digitalFiles.size(); i++) {
+
 
             String fileName = digitalFiles.get(i).get("FileName");
             String assetType = digitalFiles.get(i).get("AssetType");
@@ -566,9 +588,12 @@ public final class PIESHelper {
             String assetId = digitalFiles.get(i).get("AssetId");
             String resolution = digitalFiles.get(i).get("Resolution");
 
+
             try {
 
+
                 // Creating The DataResource of type "URL_RESOURCE" for each digital file
+
 
                 // Adding the data into contextMap
                 dataResourceData.put("dataResourceName", fileName);
@@ -576,6 +601,7 @@ public final class PIESHelper {
                 dataResourceData.put("dataResourceTypeId", "URL_RESOURCE");
                 dataResourceData.put("userLogin", userLogin);
                 dataResourceData.put("roleTypeId", "OWNER");
+
 
                 // Adding the different mimeTypeIds for different type of DigitalFile in the contextMap
                 if (fileType != null) {
@@ -588,9 +614,11 @@ public final class PIESHelper {
                     }
                 }
 
+
                 // check if the data resource with given file name exists
                 Object dataResourceId= null;
                 String dataResourceIdIfExists= checkDataResourceExists(fileName,delegator);
+
 
                 // If dataResource exists then update it else create a new one
                 if(dataResourceIdIfExists==null) {
@@ -603,6 +631,7 @@ public final class PIESHelper {
                     dispatcher.runSync("updateDataResource", dataResourceData);
                 }
 
+
                 // Adding the assetType into dataResourceAttribute if it exists
                 if (assetType != null) {
                     Map < String,
@@ -612,6 +641,7 @@ public final class PIESHelper {
                     dataResourceAttribute.put("attrValue", assetType);
                     dataResourceAttribute.put("userLogin", userLogin);
 
+
                     // Check if data resource attribute exists, create a new if not else update
                     boolean dataResourceAttributeExists= checkDataResourceAttributeExists(dataResourceId,"assetType",delegator);
                     if (dataResourceAttributeExists){
@@ -619,7 +649,8 @@ public final class PIESHelper {
                     }
                     else {
                         dispatcher.runSync("createDataResourceAttribute", dataResourceAttribute);
-                    }                }
+                    } }
+
 
                 // Adding the representation into dataResourceAttribute if it exists
                 if (representation != null) {
@@ -629,6 +660,7 @@ public final class PIESHelper {
                     dataResourceAttribute.put("attrName", "representation");
                     dataResourceAttribute.put("attrValue", representation);
                     dataResourceAttribute.put("userLogin", userLogin);
+
 
                     // Check if data resource attribute exists, create a new if not else update
                     boolean dataResourceAttributeExists= checkDataResourceAttributeExists(dataResourceId,"representation",delegator);
@@ -640,6 +672,7 @@ public final class PIESHelper {
                     }
                 }
 
+
                 // Adding the background into dataResourceAttribute if it exists
                 if (background != null) {
                     Map < String,
@@ -648,6 +681,7 @@ public final class PIESHelper {
                     dataResourceAttribute.put("attrName", "background");
                     dataResourceAttribute.put("attrValue", background);
                     dataResourceAttribute.put("userLogin", userLogin);
+
 
                     // Check if data resource attribute exists, create a new if not else update
                     boolean dataResourceAttributeExists= checkDataResourceAttributeExists(dataResourceId,"background",delegator);
@@ -658,7 +692,9 @@ public final class PIESHelper {
                         dispatcher.runSync("createDataResourceAttribute", dataResourceAttribute);
                     }
 
+
                 }
+
 
                 // Adding the assetId into dataResourceAttribute if it exists
                 if (assetId != null) {
@@ -668,6 +704,7 @@ public final class PIESHelper {
                     dataResourceAttribute.put("attrName", "assetId");
                     dataResourceAttribute.put("attrValue", assetId);
                     dataResourceAttribute.put("userLogin", userLogin);
+
 
                     // Check if data resource attribute exists, create a new if not else update
                     boolean dataResourceAttributeExists= checkDataResourceAttributeExists(dataResourceId,"assetId",delegator);
@@ -679,6 +716,7 @@ public final class PIESHelper {
                     }
                 }
 
+
                 // Adding the resolution into dataResourceAttribute if it exists
                 if (resolution != null) {
                     Map < String,
@@ -687,6 +725,7 @@ public final class PIESHelper {
                     dataResourceAttribute.put("attrName", "resolution");
                     dataResourceAttribute.put("attrValue", resolution);
                     dataResourceAttribute.put("userLogin", userLogin);
+
 
                     // Check if data resource attribute exists, create a new if not else update
                     boolean dataResourceAttributeExists= checkDataResourceAttributeExists(dataResourceId,"resolution",delegator);
@@ -698,6 +737,7 @@ public final class PIESHelper {
                     }
                 }
 
+
                 // Adding the fileSize into dataResourceAttribute if it exists
                 if (fileSize != null) {
                     Map < String,
@@ -705,6 +745,7 @@ public final class PIESHelper {
                     dataResourceAttribute.put("dataResourceId", dataResourceId);
                     dataResourceAttribute.put("attrName", "fileSize");
                     dataResourceAttribute.put("attrValue", fileSize);
+
 
                     // Check if data resource attribute exists, create a new if not else update
                     dataResourceAttribute.put("userLogin", userLogin);
@@ -717,35 +758,43 @@ public final class PIESHelper {
                     }
                 }
 
-                // Creating Content context map, for creating Content related to created data resource
-                contentEntityData.put("dataResourceId", dataResourceId);
-                contentEntityData.put("userLogin", userLogin);
-                contentEntityData.put("contentName", fileName);
-                contentEntityData.put("description", filePath);
-                Map < String,Object > contentServiceResult = dispatcher.runSync("createContent", contentEntityData);
+                // Check if a contentId exists for the current dataResource and Product
+                String contentIdIfProductContentExists= checkProductContentExists(partNumber,dataResourceId,delegator);
 
+                //If contentId does'nt exists, Create Content and ProductContent
+                if(contentIdIfProductContentExists==null) {
 
-                // Creating ProductContent, to create association with content and product
-                productContentEntity.put("contentId", contentServiceResult.get("contentId"));
-                productContentEntity.put("productId", partNumber);
+                    // Creating Content context map, for creating Content related to created data resource
+                    contentEntityData.put("dataResourceId", dataResourceId);
+                    contentEntityData.put("userLogin", userLogin);
+                    contentEntityData.put("contentName", fileName);
+                    contentEntityData.put("description", filePath);
+                    Map<String, Object> contentServiceResult = dispatcher.runSync("createContent", contentEntityData);
 
-                // set productContentTypeId as per fileType
-                if (fileType.equalsIgnoreCase("jpg") || (fileType.equalsIgnoreCase("jpeg")) ) {
-                    productContentEntity.put("productContentTypeId", "Image");
+                    // Creating ProductContent, to create association with content and product
+                    productContentEntity.put("contentId", contentServiceResult.get("contentId"));
+                    productContentEntity.put("productId", partNumber);
+
+                    // set productContentTypeId as per fileType
+                    if (fileType.equalsIgnoreCase("jpg") || (fileType.equalsIgnoreCase("jpeg"))) {
+                        productContentEntity.put("productContentTypeId", "Image");
+                    } else {
+                        productContentEntity.put("productContentTypeId", "DIGITAL_DOWNLOAD");
+                    }
+
+                    // Create Product content
+                    productContentEntity.put("userLogin", userLogin);
+                    dispatcher.runSync("createProductContent", productContentEntity);
+
                 }
-                else{
-                    productContentEntity.put("productContentTypeId","DIGITAL_DOWNLOAD");
-                }
-
-                productContentEntity.put("userLogin", userLogin);
-
-                dispatcher.runSync("createProductContent", productContentEntity);
 
             } catch(GenericServiceException e) {
                 Debug.log("\n\n\nGSerror" + e);
             }
         }
 
+
     }
+
 
 }
