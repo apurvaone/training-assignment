@@ -84,6 +84,25 @@ public final class PIESHelper {
         return goodIdentificationExists;
     }
 
+
+    // Method to check if a specific type of product category member exists for a product
+    public static boolean categoryMemberExists(String productId, String partTerminologyId,
+                                                        Delegator delegator) {
+        GenericValue genericValue;
+        boolean productCategoryMemberExists = false;
+        try {
+            genericValue = EntityQuery.use(delegator).from("ProductCategoryMember")
+                    .where("productId", productId, "productCatgoryId", partTerminologyId)
+                    .queryOne();
+            if (genericValue != null && productId.equals(genericValue.getString("productId"))) {
+                productCategoryMemberExists = true;
+            }
+        } catch (GenericEntityException e) {
+            Debug.logError("Problem in reading data of product catag member", MODULE);
+        }
+        return productCategoryMemberExists;
+    }
+
     // Method to check if a specific type of good identification exists for a product
     public static boolean checkUOMIdExists(String uomId,
                                            Delegator delegator) {
@@ -126,7 +145,6 @@ public final class PIESHelper {
     public static String checkProductDescriptionExists(String productId, String descriptionCode,
                                                        Delegator delegator) {
 
-        Debug.log("dexists "+productId+ " " + descriptionCode + " ");
         GenericValue genericValue;
         String descriptionDataResourceId= null;
         try {
@@ -179,12 +197,12 @@ public final class PIESHelper {
         try {
             genericValue = EntityQuery.use(delegator).from("DataResource")
                     .where("dataResourceName", fileName)
-                    .queryOne();
+                    .queryFirst();
             if (genericValue != null) {
                 dataResourceId = genericValue.getString("dataResourceId");
             }
         } catch (GenericEntityException e) {
-            Debug.logError("Problem in reading data of product data resource", MODULE);
+            Debug.logError("Problem in reading data of product data resource" + e, MODULE);
         }
         return dataResourceId;
     }
@@ -192,7 +210,7 @@ public final class PIESHelper {
 
     // Method to check if a DataResourceAttribute (for digital file) exists
     public static boolean checkDataResourceAttributeExists(Object dataResourceId, String attrName,
-                                                      Delegator delegator) {
+                                                           Delegator delegator) {
         GenericValue genericValue;
         boolean dataResourceAttributeExists = false;
         try {
@@ -354,12 +372,55 @@ public final class PIESHelper {
     }
 
 
+    //Method to process Categories of the product (partTerminologyId here)
+    public static void processCategories(String partTerminologyId, LocalDispatcher dispatcher, Delegator delegator, String partNumber, GenericValue userLogin) {
+
+        Debug.log("\n\nPtermID " + partTerminologyId);
+        // Initialize a contextMaps to store the parameters
+        Map <String,Object> categoryContext = new HashMap < >();
+        Map <String,Object> categoryMemberContext = new HashMap < >();
+
+        try {
+            GenericValue partTerminologyCatag = EntityQuery.use(delegator).from("ProductCategory").where("productCategoryId", partTerminologyId).queryOne();
+
+            // Check if GoodIdentificationType exists, if not create one
+            if (partTerminologyCatag == null) {
+
+                categoryContext.put("productCategoryId", partTerminologyId);
+                categoryContext.put("productCategoryTypeId", "INTERNAL_CATEGORY");
+                categoryContext.put("categoryName", "Part Terminology Category");
+                categoryContext.put("userLogin", userLogin);
+
+                Map<String,
+                        Object> result= dispatcher.runSync("createProductCategory", categoryContext);
+
+                System.out.println(result);
+            }
+
+            // adding the data into contextMap to be passed
+            categoryMemberContext.put("productId", partNumber);
+            categoryMemberContext.put("productCategoryId", partTerminologyId);
+            categoryMemberContext.put("userLogin", userLogin);
+
+            //Check if preoduct categpry member exists, create if it does not exist
+            boolean categoryMemberExists = checkGoodIdentificationExists(partNumber,partTerminologyId, delegator);
+            if(!categoryMemberExists)
+            {Map<String,
+                        Object> result=dispatcher.runSync("addProductToCategory", categoryMemberContext);
+                System.out.println(result);
+
+            }
+
+        } catch(GenericServiceException e) {
+            Debug.log("\n\n\nGSerror" + e);
+        } catch(GenericEntityException e) {
+            Debug.log("\n\n\nGEerror" + e);
+        }
+    }
+
+
     //Method to process product attributes of the Part
     public static void processProductAttributes(List < List < String >> productAttributeData, LocalDispatcher dispatcher, Delegator delegator,String partNumber, String productBrandAAIAD, String itemLevelGTIN,  GenericValue userLogin) {
-
-        // Initialize a contextMap to store the parameters
-        Map < String,
-                Object > productAttributeContext = new HashMap < >();
 
         // Convert itemLevelGTIN into packageLevelGTIN by adding starting zeroes, to make it 14 digit
         String packageLevelGTIN = String.format("%1$" + 14 + "s", itemLevelGTIN).replace(' ', '0');
@@ -381,6 +442,10 @@ public final class PIESHelper {
 
         // Iterating through each Product Attribute
         for (int i = 0; i < productAttributeData.size(); i++) {
+
+            // Initialize a contextMap to store the parameters
+            Map < String,
+                    Object > productAttributeContext = new HashMap < >();
 
             System.out.println(productAttributeData.get(i).get(0) + " " + productAttributeData.get(i).get(1));
             String attributeName = productAttributeData.get(i).get(0);
@@ -404,7 +469,6 @@ public final class PIESHelper {
                     dispatcher.runSync("updateProductAttribute", productAttributeContext);
                 }
 
-
             } catch(GenericServiceException e) {
                 Debug.log("\n\n\nGSerror" + e);
             }
@@ -416,12 +480,11 @@ public final class PIESHelper {
     //Method to process ExtendedProductInfo of the Part
     public static void processExtendedProductInfo(List < List < String >> extendedInfoData, LocalDispatcher dispatcher, Delegator delegator, String partNumber,  GenericValue userLogin) {
 
-        // Initialize a contextMap to store the parameters
-        Map < String,Object > sContext = new HashMap < >();
-
-
         // Iterating through each Extendend Product Information
         for (int i = 0; i < extendedInfoData.size(); i++) {
+
+            // Initialize a contextMap to store the parameters
+            Map < String,Object > sContext = new HashMap < >();
 
             String contentName = extendedInfoData.get(i).get(0);
             String localeString = extendedInfoData.get(i).get(1);
@@ -447,14 +510,15 @@ public final class PIESHelper {
     public static void processPartInterchangeData(List < Map < String, String >> partInterchanges, LocalDispatcher dispatcher, Delegator delegator, String partNumber, GenericValue userLogin) {
 
 
-        // Initialize contextMaps to store the parameters
-        Map < String,
-                Object > productAssocData = new HashMap < >();
-        Map < String,
-                Object > productData = new HashMap < >();
-
         // Iterate through each PartInterchange Information
         for (int i = 0; i < partInterchanges.size(); i++) {
+
+
+            // Initialize contextMaps to store the parameters
+            Map < String,
+                    Object > productAssocData = new HashMap < >();
+            Map < String,
+                    Object > productData = new HashMap < >();
 
             String partNumberTo = partInterchanges.get(i).get("PartNumber");
             String typeCode = partInterchanges.get(i).get("TypeCode");
@@ -507,74 +571,74 @@ public final class PIESHelper {
     public static void processDescriptionData(List < List < String >> descriptionContentData, LocalDispatcher dispatcher, Delegator delegator, String partNumber, GenericValue userLogin) {
 
 
-    // Initialize contextMaps to store the parameters
-    Map<String, Object> electronicTextEntityData = new HashMap<>();
-    Map<String, Object> contentEntityData = new HashMap<>();
-    Map<String, Object> productContentEntity = new HashMap<>();
-    Map<String, Object> sContext = new HashMap<>();
+        // Iterate through each Description Information
+        for (int i = 0; i < descriptionContentData.size(); i++) {
 
 
-    // Iterate through each Description Information
-    for (int i = 0; i < descriptionContentData.size(); i++) {
+            // Initialize contextMaps to store the parameters
+            Map<String, Object> electronicTextEntityData = new HashMap<>();
+            Map<String, Object> contentEntityData = new HashMap<>();
+            Map<String, Object> productContentEntity = new HashMap<>();
+            Map<String, Object> sContext = new HashMap<>();
 
-        String contentName = descriptionContentData.get(i).get(0);
-        String localeString = descriptionContentData.get(i).get(1);
-        String description = descriptionContentData.get(i).get(2);
 
-        // Check if the description with the description code exists
-        String dataResourceIdIfExists = checkProductDescriptionExists(partNumber, contentName, delegator);
+            String contentName = descriptionContentData.get(i).get(0);
+            String localeString = descriptionContentData.get(i).get(1);
+            String description = descriptionContentData.get(i).get(2);
 
-        // If description exists, update the old text with new text
-        if (dataResourceIdIfExists != null) {
+            // Check if the description with the description code exists
+            String dataResourceIdIfExists = checkProductDescriptionExists(partNumber, contentName, delegator);
 
-            Map<String, Object> updateDataResourceContext = new HashMap<>();
-            try {
-                updateDataResourceContext.put("textData", description);
-                updateDataResourceContext.put("dataResourceId", dataResourceIdIfExists);
-                updateDataResourceContext.put("userLogin", userLogin);
-                Object dataResourceServiceResult= dispatcher.runSync("updateElectronicText", updateDataResourceContext);
-                System.out.println("\n\n"+ dataResourceServiceResult);
-            } catch (GenericServiceException e) {
-                Debug.log("\n\n\nGSerror" + e);
+            // If description exists, update the old text with new text
+            if (dataResourceIdIfExists != null) {
+
+                Map<String, Object> updateDataResourceContext = new HashMap<>();
+                try {
+                    updateDataResourceContext.put("textData", description);
+                    updateDataResourceContext.put("dataResourceId", dataResourceIdIfExists);
+                    updateDataResourceContext.put("userLogin", userLogin);
+                    Object dataResourceServiceResult= dispatcher.runSync("updateElectronicText", updateDataResourceContext);
+                    System.out.println("\n\n"+ dataResourceServiceResult);
+                } catch (GenericServiceException e) {
+                    Debug.log("\n\n\nGSerror" + e);
+                }
+            } else {
+                try {
+                    // Adding the data into contextMap
+                    sContext.put("productId", partNumber);
+                    sContext.put("userLogin", userLogin);
+                    sContext.put("contentName", contentName);
+                    sContext.put("productContentTypeId", "DESCRIPTION");
+                    sContext.put("text", description);
+                    sContext.put("localeString", localeString);
+
+                    // Service call to insert data
+                    dispatcher.runSync("createSimpleTextContentForProduct", sContext);
+
+                } catch (GenericServiceException e) {
+                    Debug.log("\n\n\nGSerror" + e);
+                }
             }
-        } else {
-            try {
-                // Adding the data into contextMap
-                sContext.put("productId", partNumber);
-                sContext.put("userLogin", userLogin);
-                sContext.put("contentName", contentName);
-                sContext.put("productContentTypeId", "DESCRIPTION");
-                sContext.put("text", description);
-                sContext.put("localeString", localeString);
 
-                // Service call to insert data
-                dispatcher.runSync("createSimpleTextContentForProduct", sContext);
-
-            } catch (GenericServiceException e) {
-                Debug.log("\n\n\nGSerror" + e);
-            }
         }
-
-    }
     }
 
 
     public static void processDigitalAssets(List < Map < String, String >> digitalFiles, LocalDispatcher dispatcher, Delegator delegator, String partNumber, GenericValue userLogin) {
 
-        // Initialize contextMaps to store the parameters
-        Map < String,
-                Object > dataResourceData = new HashMap < >();
-
-        Map < String,
-                Object > contentEntityData = new HashMap < >();
-        Map < String,
-                Object > productContentEntity = new HashMap < >();
-
-
-
 
         // Iterate through each Digital File Information
         for (int i = 0; i < digitalFiles.size(); i++) {
+
+
+            // Initialize contextMaps to store the parameters
+            Map < String,
+                    Object > dataResourceData = new HashMap < >();
+
+            Map < String,
+                    Object > contentEntityData = new HashMap < >();
+            Map < String,
+                    Object > productContentEntity = new HashMap < >();
 
 
             String fileName = digitalFiles.get(i).get("FileName");
@@ -588,12 +652,9 @@ public final class PIESHelper {
             String assetId = digitalFiles.get(i).get("AssetId");
             String resolution = digitalFiles.get(i).get("Resolution");
 
-
             try {
 
-
                 // Creating The DataResource of type "URL_RESOURCE" for each digital file
-
 
                 // Adding the data into contextMap
                 dataResourceData.put("dataResourceName", fileName);
@@ -614,10 +675,10 @@ public final class PIESHelper {
                     }
                 }
 
-
                 // check if the data resource with given file name exists
                 Object dataResourceId= null;
                 String dataResourceIdIfExists= checkDataResourceExists(fileName,delegator);
+                Debug.log("DSID\n\n\n " + dataResourceIdIfExists + "\n" + fileName);
 
 
                 // If dataResource exists then update it else create a new one
@@ -625,12 +686,15 @@ public final class PIESHelper {
                     Map<String,
                             Object> dataResourceServiceResult = dispatcher.runSync("createDataResource", dataResourceData);
                     dataResourceId = dataResourceServiceResult.get("dataResourceId");
+                    Debug.log("here1" +dataResourceIdIfExists);
                 }else{
                     dataResourceId= dataResourceIdIfExists;
                     dataResourceData.put("dataResourceId",dataResourceId);
                     dispatcher.runSync("updateDataResource", dataResourceData);
-                }
+                    Debug.log("here2" +dataResourceIdIfExists);
 
+
+                }
 
                 // Adding the assetType into dataResourceAttribute if it exists
                 if (assetType != null) {
@@ -745,10 +809,10 @@ public final class PIESHelper {
                     dataResourceAttribute.put("dataResourceId", dataResourceId);
                     dataResourceAttribute.put("attrName", "fileSize");
                     dataResourceAttribute.put("attrValue", fileSize);
-
-
-                    // Check if data resource attribute exists, create a new if not else update
                     dataResourceAttribute.put("userLogin", userLogin);
+
+                    // Check if data resource attribute exists, create a new  not else update
+
                     boolean dataResourceAttributeExists= checkDataResourceAttributeExists(dataResourceId,"fileSize",delegator);
                     if (dataResourceAttributeExists){
                         dispatcher.runSync("updateDataResourceAttribute", dataResourceAttribute);
@@ -792,9 +856,6 @@ public final class PIESHelper {
                 Debug.log("\n\n\nGSerror" + e);
             }
         }
-
-
     }
-
 
 }

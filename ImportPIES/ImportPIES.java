@@ -96,6 +96,10 @@ public final class ImportPIES {
             List <Map<String,String>> partInterchanges = new ArrayList < >();
             String productBrandAAIAID = null;
             String itemLevelGTIN = null;
+            String partTerminologyId = null;
+            String AAIAProductCategoryCode = null;
+
+
             String dimensionUOM = null;
             String weightsUOM = null;
 
@@ -115,11 +119,10 @@ public final class ImportPIES {
                                     System.out.println("Start Parsing PIES");
                                 } else if ("Item".equals(localName)) {
                                     insideItem = true;
-                                    itemData.clear();
-
                                 // Parsing Description data
                                 } else if ("Descriptions".equals(localName)) {
                                     insideDescriptions = true;
+                                    descriptionContentData.clear();
                                     descriptionContentData = new ArrayList();
                                 } else if ("Description".equals(localName) && insideDescriptions) {
                                     parseDescriptions(delegator, dispatcher, descriptionContentData, xmlStreamReader);
@@ -136,6 +139,7 @@ public final class ImportPIES {
                                 // Parsing Product Attributes data
                                 else if ("ProductAttributes".equals(localName)) {
                                     insideProductAttributes = true;
+                                    productAttributeData.clear();
                                     productAttributeData = new ArrayList();
                                 }else if ("ProductAttribute".equals(localName) && insideProductAttributes) {
 
@@ -148,6 +152,7 @@ public final class ImportPIES {
                                     } else if (xmlStreamReader.getAttributeValue(0).equals("aca_DefaultImage")) {
                                         itemData.put("aca_DefaultImage", xmlStreamReader.getElementText());
                                     } else {
+
 
                                         List currentProductAttribute = new ArrayList();
                                         currentProductAttribute.add(xmlStreamReader.getAttributeValue(0));
@@ -189,6 +194,7 @@ public final class ImportPIES {
 
                                 // Parsing PartInterchange Information
                                 else if ("PartInterchangeInfo".equals(localName)) {
+                                    partInterchanges.clear();
                                     insidePartInterchangeInfo = true;
                                 } else if ("PartInterchange".equals(localName)) {
                                     insidePartInterchange = true;
@@ -209,6 +215,7 @@ public final class ImportPIES {
 
                                 // Parsing Digital Assets data
                                 else if ("DigitalAssets".equals(localName)) {
+                                    digitalFiles.clear();
                                     insideDigitalAssets = true;
                                     digitalFiles = new ArrayList < >();
 
@@ -265,7 +272,10 @@ public final class ImportPIES {
                                         productBrandAAIAID = xmlStreamReader.getElementText();
                                     } else if (localName == "ItemLevelGTIN") {
                                         itemLevelGTIN = xmlStreamReader.getElementText();
-                                    } else if (productDataSet.contains(localName)) {
+                                    }else if (localName == "PartTerminologyID") {
+                                        partTerminologyId = xmlStreamReader.getElementText();
+                                    }
+                                    else if (productDataSet.contains(localName)) {
                                         itemData.put(localName, xmlStreamReader.getElementText());
                                     }
                                 }
@@ -311,6 +321,7 @@ public final class ImportPIES {
                                     // Calling helper methods to process and import the parsed data
                                     PIESHelper.processItemData(itemData, dispatcher, delegator, userLogin);
                                     PIESHelper.processGTINs(itemLevelGTIN, dispatcher, delegator, itemData.get("PartNumber"),userLogin);
+                                    PIESHelper.processCategories(partTerminologyId, dispatcher, delegator, itemData.get("PartNumber"),userLogin);
                                     PIESHelper.processProductAttributes(productAttributeData, dispatcher, delegator, itemData.get("PartNumber"), productBrandAAIAID, itemLevelGTIN,userLogin);
                                     PIESHelper.processDescriptionData(descriptionContentData, dispatcher, delegator, itemData.get("PartNumber"),userLogin);
                                     PIESHelper.processPartInterchangeData(partInterchanges, dispatcher, delegator, itemData.get("PartNumber"),userLogin);
@@ -320,6 +331,8 @@ public final class ImportPIES {
                                     partNumberFound = false;
                                     brandLabelFound = false;
                                     brandAAIAIDFound = false;
+
+
                                 }
 
                                 break;
