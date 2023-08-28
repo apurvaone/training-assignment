@@ -36,6 +36,29 @@ under the License.
     </screen>
 
 
+     <screen name="ShowContact">
+        <section>
+            <actions>
+                <set field="titleProperty" value="PageTitleShowParties"/>
+                <set field="headerItem" value="showContact"/>
+                <script location="component://institute/groovyScripts/crud/ShowInstituteContact.groovy"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="InstituteCommonDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                        <screenlet>
+                            <platform-specific>
+                                <html><html-template location="component://institute/webapp/institute/crud/InstituteContact.ftl"/></html>
+                            </platform-specific>
+                        </screenlet>
+
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+
+
 
 
 </screens>
