@@ -41,5 +41,41 @@ under the License.
         </section>
     </screen>
 
+
+ <screen name="InstituteCommonDecorator">
+        <section>
+            <actions>
+<!--                <property-map resource="InstituteUiLabels" map-name="uiLabelMap" global="true"/>-->
+<!--                <property-map resource="InstituteUiLabels" map-name="uiLabelMap" global="true"/>-->
+
+                <set field="layoutSettings.companyName" from-field="acropolis" global="true"/>
+
+                <!-- Including custom CSS Styles that you want to use in your application view. [] in field can be used to
+                     set the order of loading CSS files to load if there are multiple -->
+                <set field="layoutSettings.styleSheets[]" value="/institute/css/bootstrap.min.css"/>
+
+                <!-- Including custom JS that you want to use in your application view. [] in field can be used to
+                     set the order of loading of JS files to load if there are multiple -->
+                <set field="layoutSettings.javaScripts[+0]" value="/institute/js/bootstrap.min.js" global="true"/>
+                <set field="layoutSettings.javaScripts[+0]" value="/institute/js/editPersons.js" global="true"/>
+            </actions>
+            <widgets>
+                <section>
+                    <condition>
+                        <if-has-permission permission="INSTITUTE" action="_VIEW"/>
+                    </condition>
+                    <widgets>
+                        <platform-specific><html><html-template location="component://institute/webapp/institute/crud/PreBody.ftl"/></html></platform-specific>
+                        <decorator-section-include name="pre-body"/>
+                        <decorator-section-include name="body"/>
+                        <platform-specific><html><html-template location="component://institute/webapp/institute/crud/PostBody.ftl"/></html></platform-specific>
+                    </widgets>
+                    <fail-widgets>
+                        <label style="h3">${uiLabelMap.OfbizDemoViewPermissionError}</label>
+                    </fail-widgets>
+                </section>
+            </widgets>
+        </section>
+    </screen>
     
 </screens>
