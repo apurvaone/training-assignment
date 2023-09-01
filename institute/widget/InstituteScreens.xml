@@ -36,6 +36,7 @@ under the License.
     </screen>
 
 
+<!-- Screen to show Contact Mechs of organization -->
      <screen name="ShowContact">
         <section>
             <actions>
@@ -59,7 +60,7 @@ under the License.
     </screen>
 
 
-
+<!-- Screen to list students of institute -->
      <screen name="ShowParties">
         <section>
             <actions>
@@ -81,6 +82,30 @@ under the License.
                                 <html><html-template location="component://institute/webapp/institute/crud/ListPersons.ftl"/></html>
                             </platform-specific>
                         </screenlet>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+
+
+<!-- Screen to show details of Student which was clicked -->
+ <screen name="StudentDetail">
+        <section>
+            <actions>
+                <set field="titleProperty" value="PageTitleShowParties"/>
+                <set field="headerItem" value="studentDetail    "/>
+                <script location="component://institute/groovyScripts/crud/ShowStudentDetail.groovy"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="InstituteCommonDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                        <screenlet>
+                            <platform-specific>
+                                <html><html-template location="component://institute/webapp/institute/crud/StudentDetail.ftl"/></html>
+                            </platform-specific>
+                        </screenlet>
+
                     </decorator-section>
                 </decorator-screen>
             </widgets>
