@@ -27,6 +27,96 @@ under the License.
 
     <description>Institute Component Site Configuration File</description>
 
+    <!--Request Mapping-->
+    <request-map uri="ShowParties">
+        <security https="true" auth="true"/>
+        <response name="success" type="view" value="ShowParties"/>
+    </request-map>
+
+    <!--View Mapping-->
+    <view-map name="ShowParties" type="screen" page="component://institute/widget/InstituteScreens.xml#ShowParties"/>
+
+
+    <request-map uri="ShowContact">
+        <security https="true" auth="true"/>
+        <response name="success" type="view" value="ShowContact"/>
+    </request-map>
+
+    <!--View Mapping-->
+    <view-map name="ShowContact" type="screen" page="component://institute/widget/InstituteScreens.xml#ShowContact"/>
+
+
+
+    <request-map uri="updatePersonData">
+        <security https="true" auth="true"/>
+        <event type="service" invoke="updatePerson"/>
+        <response name="success" type="view" value="main"/>
+    </request-map>
+
+
+    <request-map uri="updateEmailData">
+        <security https="true" auth="true"/>
+        <event type="service" invoke="createUpdatePartyEmailAddress"/>
+        <response name="success" type="view" value="main"/>
+    </request-map>
+
+
+    <request-map uri="updateTelecomNumber">
+        <security https="true" auth="true"/>
+        <event type="service" invoke="createUpdatePartyTelecomNumber"/>
+        <response name="success" type="view" value="main"/>
+    </request-map>
+
+
+    <request-map uri="updateAddress">
+        <security https="true" auth="true"/>
+        <event type="service" invoke="createUpdatePartyPostalAddress"/>
+        <response name="success" type="view" value="main"/>
+    </request-map>
+
+
+    <request-map uri="deleteCurrentEmail">
+        <security https="true" auth="true"/>
+        <event type="service" invoke="deletePartyContactMech"/>
+        <response name="success" type="view" value="main"/>
+    </request-map>
+
+
+    <request-map uri="deleteCurrentAddress">
+        <security https="true" auth="true"/>
+        <event type="service" invoke="deletePartyContactMech"/>
+        <response name="success" type="view" value="main"/>
+    </request-map>
+
+
+    <request-map uri="deleteCurrentPhone">
+        <security https="true" auth="true"/>
+        <event type="service" invoke="deletePartyContactMech"/>
+        <response name="success" type="view" value="main"/>
+    </request-map>
+
+
+    <request-map uri="createPartyAndPerson">
+        <security https="true" auth="true"/>
+        <event type="service" invoke="createPartyAndPerson"/>
+        <response name="success" type="view" value="main"/>
+    </request-map>
+
+        <request-map uri="deletePartyAndPerson">
+        <security https="true" auth="true"/>
+        <event type="service" invoke="deleteStudent"/>
+        <response name="success" type="view" value="main"/>
+    </request-map>
+
+
+    <request-map uri="StudentDetail">
+        <security https="true" auth="true"/>
+        <response name="success" type="view" value="StudentDetail"/>
+    </request-map>
+
+    <!--View Mapping-->
+    <view-map name="StudentDetail" type="screen" page="component://institute/widget/InstituteScreens.xml#StudentDetail"/>
+
 
     <!-- Request Mappings -->
     <request-map uri="main"><security https="true" auth="true"/><response name="success" type="view" value="main"/></request-map>

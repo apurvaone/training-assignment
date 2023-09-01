@@ -25,4 +25,30 @@ under the License.
     <version>1.0</version>
 
 
+<!-- Service to Create a New Student -->
+
+        <service name="createPartyAndPerson" engine="groovy" location="component://institute/groovyScripts/crud/AddAndDeleteStudent.groovy" invoke="createStudentDetails" auth="true">
+        <attribute name="roleTypeId" mode="IN" type="String" optional="false"/>
+        <attribute name="firstName" mode="IN" type="String" optional="false"/>
+        <attribute name="middleName" mode="IN" type="String" optional="true"/>
+        <attribute name="lastName" mode="IN" type="String" optional="false"/>
+        <attribute name="gender" mode="IN" type="String" optional="false"/>
+        <attribute name="birthDate" mode="IN" type="String" optional="false"/>
+        </service>
+
+
+  <!-- Services to Delete Student -->
+
+    <service name="deletePerson" engine="groovy" location="component://institute/groovyScripts/crud/AddAndDeleteStudent.groovy" invoke="deleteParty" auth="true">
+        <attribute name="partyId" mode="IN" type="String" optional="false"/>
+        <attribute name="roleTypeId" mode="IN" type="String" optional="false"/>
+    </service>
+
+
+    <service name="deleteStudent" engine="groovy" location="component://institute/groovyScripts/crud/AddAndDeleteStudent.groovy" invoke="deleteStudent" auth="true">
+        <attribute name="partyId" mode="IN" type="String" optional="false"/>
+    </service>
+
+
+
 </services>
