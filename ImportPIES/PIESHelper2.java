@@ -52,7 +52,6 @@ import org.apache.ofbiz.entity.condition.EntityOperator;
 */
 
 
-// Helper class to facilitate Utility and IO operations of PIES data import
 public final class PIESHelper2 {
 
     private static final String MODULE = PIESHelper.class.getName();
