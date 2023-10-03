@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<entity-engine-xml>
+
+    <!-- Description: Ecommerce company named MobileX, has stores in different cities in different locations-->
+
+    <!--    Party of Company Store-->
+    <Party partyId="mobileX" statusId="PARTY_ENABLED" partyTypeId="LEGAL_ORGANIZATION" primaryStoreGroupId="mobilex_indore"/>
+
+    <!--    Product Store Group-->
+    <ProductStoreGroup productStoreGroupId="mobilex_indore" productStoreGroupName="MobileX Indore"/>
+
+    <!--    Product Store-->
+    <ProductStore productStoreId="mx_store1" companyName="MobileX" storeName="MobileX"/>
+
+    <!--    Product Store Group Member-->
+    <ProductStoreGroupMember productStoreId="mx_store1" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000"/>
+
+
+    <!--    Facility-->
+    <Facility facilityId="Main-Facility" facilityTypeId="WAREHOUSE" facilityName="Main Facility" ownerPartyId="mobileX" productStoreId="mx_store1"/>
+
+    <!--    Product Store Facility-->
+    <ProductStoreFacility productStoreId="mx_store1" facilityId="Main-Facility" fromDate="2023-08-03 00:00:00.000"/>
+
+
+    <!--    Product Catalog-->
+    <ProdCatalog prodCatalogId="apple_catalog" catalogName="Apple Catalog"/>
+    <ProdCatalog prodCatalogId="oneplus_catalog" catalogName="One Plus Catalog"/>
+    <ProdCatalog prodCatalogId="samsung_catalog" catalogName="Samsung Catalog"/>
+    <ProdCatalog prodCatalogId="most_popular" catalogName="Most Popular Catalog"/>
+    <ProdCatalog prodCatalogId="whats_new" catalogName="What's New Catalog"/>
+
+
+    <!--    Product Categories-->
+
+    <ProductCategory productCategoryId="smartphones" productCategoryTypeId="INTERNAL_CATEGORY" categoryName="Smartphones" />
+    <ProductCategory productCategoryId="android_phones" productCategoryTypeId="INTERNAL_CATEGORY" categoryName="Smartphones" />
+    <ProductCategory productCategoryId="ios_phones" productCategoryTypeId="INTERNAL_CATEGORY" categoryName="Smartphones" />
+
+    <ProductCategory productCategoryId="apple_phones" productCategoryTypeId="CATALOG_CATEGORY" categoryName="Apple IPhones"/>
+    <ProductCategory productCategoryId="samsung_phones" productCategoryTypeId="CATALOG_CATEGORY" categoryName="Samsung Smartphones"/>
+    <ProductCategory productCategoryId="oneplus_phones" productCategoryTypeId="CATALOG_CATEGORY" categoryName="One Plus Smartphones"/>
+
+    <ProductCategory productCategoryId="mostPopularCatag" productCategoryTypeId="CATALOG_CATEGORY" categoryName="Most Popular Category"/>
+    <ProductCategory productCategoryId="whatsNewCatag" productCategoryTypeId="CATALOG_CATEGORY" categoryName="What's New Category"/>
+
+
+    <!--    Product Catalog Category-->
+    <ProdCatalogCategory prodCatalogId="apple_catalog" productCategoryId="apple_phones"  prodCatalogCategoryTypeId="PCCT_BROWSE_ROOT" fromDate="2023-08-03 00:00:00.000" />
+    <ProdCatalogCategory prodCatalogId="samsung_catalog" productCategoryId="samsung_phones"  prodCatalogCategoryTypeId="PCCT_BROWSE_ROOT" fromDate="2023-08-03 00:00:00.000" />
+    <ProdCatalogCategory prodCatalogId="oneplus_catalog" productCategoryId="oneplus_phones"  prodCatalogCategoryTypeId="PCCT_BROWSE_ROOT" fromDate="2023-08-03 00:00:00.000" />
+    <ProdCatalogCategory prodCatalogId="most_popular" productCategoryId="mostPopularCatag"  prodCatalogCategoryTypeId="PCCT_MOST_POPULAR" fromDate="2023-08-03 00:00:00.000" />
+    <ProdCatalogCategory prodCatalogId="whats_new" productCategoryId="whatsNewCatag"  prodCatalogCategoryTypeId="PCCT_WHATS_NEW" fromDate="2023-08-03 00:00:00.000" />
+
+
+    <!--    Product Catalog Rollup-->
+
+    <ProductCategoryRollup productCategoryId="apple_phones"  parentProductCategoryId="smartphones" fromDate="2023-08-03 00:00:00.000"/>
+    <ProductCategoryRollup productCategoryId="samsung_phones"  parentProductCategoryId="smartphones" fromDate="2023-08-03 00:00:00.000"/>
+    <ProductCategoryRollup productCategoryId="oneplus_phones"  parentProductCategoryId="smartphones" fromDate="2023-08-03 00:00:00.000"/>
+    <ProductCategoryRollup productCategoryId="samsung_phones"  parentProductCategoryId="android_phones" fromDate="2023-08-03 00:00:00.000"/>
+    <ProductCategoryRollup productCategoryId="oneplus_phones"  parentProductCategoryId="android_phones" fromDate="2023-08-03 00:00:00.000"/>
+    <ProductCategoryRollup productCategoryId="apple_phones"  parentProductCategoryId="ios_phones" fromDate="2023-08-03 00:00:00.000"/>
+
+
+
+    <!--    Product Store Catalog-->
+    <ProductStoreCatalog productStoreId="mx_store1" prodCatalogId="apple_catalog" fromDate="2023-08-03 00:00:00.000"/>
+    <ProductStoreCatalog productStoreId="mx_store1" prodCatalogId="oneplus_catalog" fromDate="2023-08-03 00:00:00.000"/>
+    <ProductStoreCatalog productStoreId="mx_store1" prodCatalogId="samsung_catalog" fromDate="2023-08-03 00:00:00.000"/>
+    <ProductStoreCatalog productStoreId="mx_store1" prodCatalogId="most_popular" fromDate="2023-08-03 00:00:00.000"/>
+    <ProductStoreCatalog productStoreId="mx_store1" prodCatalogId="whats_new" fromDate="2023-08-03 00:00:00.000"/>
+
+
+    <!--    Virtual Prodcuts-->
+
+    <Product productId="iphone13" productTypeId="FINISHED_GOOD" brandName="APPLE" productName="Iphone 13" releaseDate="2021-08-24 00:00:00.000" isVirtual="Y" isVarient="N"  />
+    <Product productId="iphone14" productTypeId="FINISHED_GOOD" brandName="APPLE" productName="Iphone 14" releaseDate="2022-08-16 00:00:00.000" isVirtual="Y" isVarient="N" />
+    <Product productId="iphone14pro" productTypeId="FINISHED_GOOD" brandName="APPLE" productName="Iphone 14 pro" releaseDate="2022-08-16 00:00:00.000" isVirtual="Y" isVarient="N" />
+
+    <Product productId="samsungS22" productTypeId="FINISHED_GOOD" brandName="Samsung" productName="Samsung Galaxy S22" releaseDate="2023-04-12 00:00:00.000" isVirtual="Y" isVarient="N" />
+    <Product productId="samsungS21" productTypeId="FINISHED_GOOD" brandName="Samsung" productName="Samsung Galaxy S21" releaseDate="2022-04-12 00:00:00.000" isVirtual="Y" isVarient="N" />
+    <Product productId="samsungZFold4" productTypeId="FINISHED_GOOD" brandName="Samsung" productName="Samsung Galaxy Z Fold 4" releaseDate="2023-05-10 00:00:00.000" isVirtual="Y" isVarient="N" />
+
+    <Product productId="oneplus11r" productTypeId="FINISHED_GOOD" brandName="OnePlus" productName="OnePlus 11R 5G" releaseDate="2023-04-30 00:00:00.000" isVirtual="Y" isVarient="N" />
+    <Product productId="oneplusNord2T" productTypeId="FINISHED_GOOD" brandName="OnePlus" productName="One Plus Nord 2T" releaseDate="2022-04-12 00:00:00.000" isVirtual="Y" isVarient="N" />
+    <Product productId="oneplus10r" productTypeId="FINISHED_GOOD" brandName="OnePlus" productName="One Plus 10R" releaseDate="2021-05-10 00:00:00.000" isVirtual="Y" isVarient="N" />
+
+
+<!--    Varients of each smartphone-->
+
+
+    <!--    Iphone 13-->
+    <Product productId="IPH13-1-R" productTypeId="FINISHED_GOOD" brandName="APPLE" productName="Iphone 13 128GB Red" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+    <Product productId="IPH13-1-B" productTypeId="FINISHED_GOOD" brandName="APPLE" productName="Iphone 13 128GB Black" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+    <Product productId="IPH13-2-R" productTypeId="FINISHED_GOOD" brandName="APPLE" productName="Iphone 13 256GB Red" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+    <Product productId="IPH13-2-B" productTypeId="FINISHED_GOOD" brandName="APPLE" productName="Iphone 13 256GB Black" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+
+    <!--    Iphone 14-->
+    <Product productId="IPH14-1-R" productTypeId="FINISHED_GOOD" brandName="APPLE" productName="Iphone 14 128GB Red" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+    <Product productId="IPH14-1-B" productTypeId="FINISHED_GOOD" brandName="APPLE" productName="Iphone 14 128GB Black" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+    <Product productId="IPH14-2-R" productTypeId="FINISHED_GOOD" brandName="APPLE" productName="Iphone 14 256GB Red" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+    <Product productId="IPH14-2-B" productTypeId="FINISHED_GOOD" brandName="APPLE" productName="Iphone 14 256GB Black" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+
+    <!--    Iphone 14 Pro-->
+    <Product productId="IPH14P-1-R" productTypeId="FINISHED_GOOD" brandName="APPLE" productName="Iphone 14 Pro 128GB Red" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+    <Product productId="IPH14P-1-B" productTypeId="FINISHED_GOOD" brandName="APPLE" productName="Iphone 14 Pro 128GB Black" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+    <Product productId="IPH14P-2-R" productTypeId="FINISHED_GOOD" brandName="APPLE" productName="Iphone 14 Pro 256GB Red" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+    <Product productId="IPH14P-2-B" productTypeId="FINISHED_GOOD" brandName="APPLE" productName="Iphone 14 Pro 256GB Black" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+
+    <!--    Samsung Galaxy S 21-->
+    <Product productId="SMGS21-1-R" productTypeId="FINISHED_GOOD" brandName="SAMSUNG" productName="Samsung Galaxy S21 128GB Red" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+    <Product productId="SMGS21-1-B" productTypeId="FINISHED_GOOD" brandName="SAMSUNG" productName="Samsung Galaxy S21 128GB Black" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+    <Product productId="SMGS21-2-R" productTypeId="FINISHED_GOOD" brandName="SAMSUNG" productName="Samsung Galaxy S21 256GB Red" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+    <Product productId="SMGS21-2-B" productTypeId="FINISHED_GOOD" brandName="SAMSUNG" productName="Samsung Galaxy S21 256GB Black" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+
+    <!--    Samsung Galaxy S 22-->
+    <Product productId="SMGS22-1-R" productTypeId="FINISHED_GOOD" brandName="SAMSUNG" productName="Samsung Galaxy S22 128GB Red" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+    <Product productId="SMGS22-1-B" productTypeId="FINISHED_GOOD" brandName="SAMSUNG" productName="Samsung Galaxy S22 128GB Black" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+    <Product productId="SMGS22-2-R" productTypeId="FINISHED_GOOD" brandName="SAMSUNG" productName="Samsung Galaxy S22 256GB Red" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+    <Product productId="SMGS22-2-B" productTypeId="FINISHED_GOOD" brandName="SAMSUNG" productName="Samsung Galaxy S22 256GB Black" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+
+    <!--    Samsung z Fold 4 -->
+    <Product productId="SMGFO4-1-R" productTypeId="FINISHED_GOOD" brandName="SAMSUNG" productName="Samsung zFold4 128GB Red" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+    <Product productId="SMGFO4-1-B" productTypeId="FINISHED_GOOD" brandName="SAMSUNG" productName="Samsung zFold4  128GB Black" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+    <Product productId="SMGFO4-2-R" productTypeId="FINISHED_GOOD" brandName="SAMSUNG" productName="Samsung zFold4 256GB Red" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+    <Product productId="SMGFO4-2-B" productTypeId="FINISHED_GOOD" brandName="SAMSUNG" productName="Samsung zFold4 256GB Black" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+
+
+    <!--    OnePLus 11R -->
+    <Product productId="OPS11R-1-R" productTypeId="FINISHED_GOOD" brandName="ONEPLUS" productName="OnePlus 11R 5G 128GB Red" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+    <Product productId="OPS11R-1-B" productTypeId="FINISHED_GOOD" brandName="ONEPLUS" productName="OnePlus 11R 5G 128GB Black" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+    <Product productId="OPS11R-2-R" productTypeId="FINISHED_GOOD" brandName="ONEPLUS" productName="OnePlus 11R 5G 256GB Red" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+    <Product productId="OPS11R-2-B" productTypeId="FINISHED_GOOD" brandName="ONEPLUS" productName="OnePlus 11R 5G 256GB Black" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+
+
+    <!--    OnePLus 10R -->
+    <Product productId="OPS10R-1-R" productTypeId="FINISHED_GOOD" brandName="ONEPLUS" productName="OnePlus 10R 5G 128GB Red" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+    <Product productId="OPS10R-1-B" productTypeId="FINISHED_GOOD" brandName="ONEPLUS" productName="OnePlus 10R 5G 128GB Black" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+    <Product productId="OPS10R-2-R" productTypeId="FINISHED_GOOD" brandName="ONEPLUS" productName="OnePlus 10R 5G 256GB Red" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+    <Product productId="OPS10R-2-B" productTypeId="FINISHED_GOOD" brandName="ONEPLUS" productName="OnePlus 10R 5G 256GB Black" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+
+    <!--    OnePLus Nord 2T -->
+    <Product productId="OPSN2T-1-R" productTypeId="FINISHED_GOOD" brandName="ONEPLUS" productName="OnePlus 10R 5G 128GB Red" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+    <Product productId="OPSN2T-1-B" productTypeId="FINISHED_GOOD" brandName="ONEPLUS" productName="OnePlus 10R 5G 128GB Black" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+    <Product productId="OPSN2T-2-R" productTypeId="FINISHED_GOOD" brandName="ONEPLUS" productName="OnePlus 10R 5G 256GB Red" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+    <Product productId="OPSN2T-2-B" productTypeId="FINISHED_GOOD" brandName="ONEPLUS" productName="OnePlus 10R 5G 256GB Black" releaseDate="2021-08-24 00:00:00.000" isVirtual="N" isVarient="Y" />
+
+
+    <!--    Product Feature (Color)-->
+
+    <!-- Product Feature Catagory-->
+    <ProductFeatureCategory productFeatureCategoryId="phoneColors" description="SmartPhone Colors"/>
+
+    <!-- Product Feature-->
+    <ProductFeature productFeatureId="phoneColor1" description="Red" productFeatureTypeId="COLOR" productFeatureCategoryId="phoneColors"/>
+    <ProductFeature productFeatureId="phoneColor2" description="Black" productFeatureTypeId="COLOR" productFeatureCategoryId="phoneColors"/>
+
+
+    <!--    Feature Applicability-->
+
+    <!--    Iphone 13 variants feature applicability-->
+    <ProductFeatureAppl productId="IPH13-1-R" productFeatureId="phoneColor1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="IPH13-1-B" productFeatureId="phoneColor2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="IPH13-2-R" productFeatureId="phoneColor1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="IPH13-2-B" productFeatureId="phoneColor2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+
+    <!--    Iphone 14 variants feature applicability-->
+    <ProductFeatureAppl productId="IPH14-1-R" productFeatureId="phoneColor1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="IPH14-1-B" productFeatureId="phoneColor2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="IPH14-2-R" productFeatureId="phoneColor1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="IPH14-2-B" productFeatureId="phoneColor2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+
+    <!--    Iphone 14 Pro variants feature applicability-->
+    <ProductFeatureAppl productId="IPH14P-1-R" productFeatureId="phoneColor1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="IPH14P-1-B" productFeatureId="phoneColor2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="IPH14P-2-R" productFeatureId="phoneColor1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="IPH14P-2-B" productFeatureId="phoneColor2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+
+    <!--    Samsung Galaxy S21 variants feature applicability-->
+    <ProductFeatureAppl productId="SMGS21-1-R" productFeatureId="phoneColor1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="SMGS21-1-B" productFeatureId="phoneColor2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="SMGS21-2-R" productFeatureId="phoneColor1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="SMGS21-2-B" productFeatureId="phoneColor2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+
+
+    <!--    Samsung Galaxy S22 variants feature applicability-->
+    <ProductFeatureAppl productId="SMGS22-1-R" productFeatureId="phoneColor1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="SMGS22-1-B" productFeatureId="phoneColor2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="SMGS22-2-R" productFeatureId="phoneColor1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="SMGS22-2-B" productFeatureId="phoneColor2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+
+
+    <!--    Samsung Galaxy S22 variants feature applicability-->
+    <ProductFeatureAppl productId="SMGS22-1-R" productFeatureId="phoneColor1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="SMGS22-1-B" productFeatureId="phoneColor2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="SMGS22-2-R" productFeatureId="phoneColor1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="SMGS22-2-B" productFeatureId="phoneColor2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+
+
+    <!--    Samsung Galaxy S22 variants feature applicability-->
+    <ProductFeatureAppl productId="SMGFO4-1-R" productFeatureId="phoneColor1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="SMGFO4-1-B" productFeatureId="phoneColor2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="SMGFO4-2-R" productFeatureId="phoneColor1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="SMGFO4-2-B" productFeatureId="phoneColor2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+
+
+
+    <!--    OnePlus 10r variants feature applicability-->
+    <ProductFeatureAppl productId="OPS10R-1-R" productFeatureId="phoneColor1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="OPS10R-1-B" productFeatureId="phoneColor2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="OPS10R-2-R" productFeatureId="phoneColor1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="OPS10R-2-B" productFeatureId="phoneColor2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+
+
+    <!--    OnePlus 11r variants feature applicability-->
+    <ProductFeatureAppl productId="OPS11R-1-R" productFeatureId="phoneColor1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="OPS11R-1-B" productFeatureId="phoneColor2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="OPS11R-2-R" productFeatureId="phoneColor1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="OPS11R-2-B" productFeatureId="phoneColor2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+
+
+
+    <!--    OnePlus 11r variants feature applicability-->
+    <ProductFeatureAppl productId="OPSN2T-1-R" productFeatureId="phoneColor1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="OPSN2T-1-B" productFeatureId="phoneColor2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="OPSN2T-2-R" productFeatureId="phoneColor1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="OPSN2T-2-B" productFeatureId="phoneColor2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+
+
+
+    <!--    Product Feature (Storage)-->
+
+    <!-- Product Feature Catagory-->
+    <ProductFeatureCategory productFeatureCategoryId="phoneStorage" description="SmartPhone Storage"/>
+
+    <!-- Product Feature-->
+    <ProductFeature productFeatureId="phoneStorage1" description="128GB" productFeatureTypeId="HARDWARE_FEATURE" productFeatureCategoryId="phoneStorage"/>
+    <ProductFeature productFeatureId="phoneStorage2" description="256GB" productFeatureTypeId="HARDWARE_FEATURE" productFeatureCategoryId="phoneStorage"/>
+
+
+    <!--    Feature Applicability-->
+
+    <!--    Iphone 13 variants feature applicability-->
+    <ProductFeatureAppl productId="IPH13-1-R" productFeatureId="phoneStorage1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="IPH13-1-B" productFeatureId="phoneStorage1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="IPH13-2-R" productFeatureId="phoneStorage2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="IPH13-2-B" productFeatureId="phoneStorage2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+
+    <!--    Iphone 14 variants feature applicability-->
+    <ProductFeatureAppl productId="IPH14-1-R" productFeatureId="phoneStorage1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="IPH14-1-B" productFeatureId="phoneStorage1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="IPH14-2-R" productFeatureId="phoneStorage2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="IPH14-2-B" productFeatureId="phoneStorage2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+
+    <!--    Iphone 14 Pro variants feature applicability-->
+    <ProductFeatureAppl productId="IPH14P-1-R" productFeatureId="phoneStorage1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="IPH14P-1-B" productFeatureId="phoneStorage1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="IPH14P-2-R" productFeatureId="phoneStorage2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="IPH14P-2-B" productFeatureId="phoneStorage2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+
+    <!--    Samsung Galaxy S21 variants feature applicability-->
+    <ProductFeatureAppl productId="SMGS21-1-R" productFeatureId="phoneStorage1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="SMGS21-1-B" productFeatureId="phoneStorage1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="SMGS21-2-R" productFeatureId="phoneStorage2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="SMGS21-2-B" productFeatureId="phoneStorage2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+
+
+    <!--    Samsung Galaxy S22 variants feature applicability-->
+    <ProductFeatureAppl productId="SMGS22-1-R" productFeatureId="phoneStorage1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="SMGS22-1-B" productFeatureId="phoneStorage1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="SMGS22-2-R" productFeatureId="phoneStorage2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="SMGS22-2-B" productFeatureId="phoneStorage2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+
+
+    <!--    Samsung Galaxy S22 variants feature applicability-->
+    <ProductFeatureAppl productId="SMGS22-1-R" productFeatureId="phoneStorage1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="SMGS22-1-B" productFeatureId="phoneStorage1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="SMGS22-2-R" productFeatureId="phoneStorage2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="SMGS22-2-B" productFeatureId="phoneStorage2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+
+
+    <!--    Samsung Galaxy S22 variants feature applicability-->
+    <ProductFeatureAppl productId="SMGFO4-1-R" productFeatureId="phoneStorage1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="SMGFO4-1-B" productFeatureId="phoneStorage1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="SMGFO4-2-R" productFeatureId="phoneStorage2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="SMGFO4-2-B" productFeatureId="phoneStorage2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+
+
+
+    <!--    OnePlus 10r variants feature applicability-->
+    <ProductFeatureAppl productId="OPS10R-1-R" productFeatureId="phoneStorage1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="OPS10R-1-B" productFeatureId="phoneStorage1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="OPS10R-2-R" productFeatureId="phoneStorage2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="OPS10R-2-B" productFeatureId="phoneStorage2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+
+
+    <!--    OnePlus 11r variants feature applicability-->
+    <ProductFeatureAppl productId="OPS11R-1-R" productFeatureId="phoneStorage1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="OPS11R-1-B" productFeatureId="phoneStorage1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="OPS11R-2-R" productFeatureId="phoneStorage2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="OPS11R-2-B" productFeatureId="phoneStorage2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+
+
+
+    <!--    OnePlus 11r variants feature applicability-->
+    <ProductFeatureAppl productId="OPSN2T-1-R" productFeatureId="phoneStorage1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="OPSN2T-1-B" productFeatureId="phoneStorage1" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="OPSN2T-2-R" productFeatureId="phoneStorage2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+    <ProductFeatureAppl productId="OPSN2T-2-B" productFeatureId="phoneStorage2" productFeatureApplTypeId="STANDARD_FEATURE"  fromDate="2021-08-24 00:00:00.000"/>
+
+
+    <!--    Product Category Members (Associating products with their categories)-->
+
+    <ProductCategoryMember productCategoryId="apple_phones"  productId="iphone13" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductCategoryMember productCategoryId="apple_phones"  productId="iphone14" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductCategoryMember productCategoryId="apple_phones"  productId="iphone14Pro" fromDate="2021-08-24 00:00:00.000"/>
+
+    <ProductCategoryMember productCategoryId="samsung_phones"  productId="samsungS22" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductCategoryMember productCategoryId="samsung_phones"  productId="samsungS21" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductCategoryMember productCategoryId="samsung_phones"  productId="samsungZFold4" fromDate="2021-08-24 00:00:00.000"/>
+
+    <ProductCategoryMember productCategoryId="oneplus_phones"  productId="oneplus11r" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductCategoryMember productCategoryId="oneplus_phones"  productId="oneplus10r" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductCategoryMember productCategoryId="oneplus_phones"  productId="oneplusNord2T" fromDate="2021-08-24 00:00:00.000"/>
+
+    <ProductCategoryMember productCategoryId="mostPopularCatag"  productId="oneplus11r" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductCategoryMember productCategoryId="mostPopularCatag"  productId="iphone14Pro" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductCategoryMember productCategoryId="mostPopularCatag"  productId="samsungS21" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductCategoryMember productCategoryId="mostPopularCatag"  productId="samsungZFold4" fromDate="2021-08-24 00:00:00.000"/>
+
+    <ProductCategoryMember productCategoryId="whatsNewCatag"  productId="samsungZFold4" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductCategoryMember productCategoryId="whatsNewCatag"  productId="oneplusNord2T" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductCategoryMember productCategoryId="whatsNewCatag"  productId="samsungS22" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductCategoryMember productCategoryId="whatsNewCatag"  productId="iphone14Pro" fromDate="2021-08-24 00:00:00.000"/>
+
+
+
+
+<!--    Product Associations-->
+
+
+    <ProductAssoc productId="iphone13" productIdTo="IPH13-1-R" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductAssoc productId="iphone13" productIdTo="IPH13-1-B" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductAssoc productId="iphone13" productIdTo="IPH13-2-B" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductAssoc productId="iphone13" productIdTo="IPH13-2-R" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+
+    <ProductAssoc productId="iphone14" productIdTo="IPH14-1-R" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductAssoc productId="iphone14" productIdTo="IPH14-1-B" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductAssoc productId="iphone14" productIdTo="IPH14-2-B" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductAssoc productId="iphone14" productIdTo="IPH14-2-R" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+
+    <ProductAssoc productId="iphone14Pro" productIdTo="IPH14P-1-R" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductAssoc productId="iphone14Pro" productIdTo="IPH14P-1-B" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductAssoc productId="iphone14Pro" productIdTo="IPH14P-2-B" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductAssoc productId="iphone14Pro" productIdTo="IPH14P-2-R" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+
+    <ProductAssoc productId="samsungS22" productIdTo="SMGS22-1-R" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductAssoc productId="samsungS22" productIdTo="SMGS22-1-B" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductAssoc productId="samsungS22" productIdTo="SMGS22-2-R" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductAssoc productId="samsungS22" productIdTo="SMGS22-2-B" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+
+    <ProductAssoc productId="samsungS21" productIdTo="SMGS21-1-R" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductAssoc productId="samsungS21" productIdTo="SMGS21-1-B" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductAssoc productId="samsungS21" productIdTo="SMGS21-2-R" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductAssoc productId="samsungS21" productIdTo="SMGS21-2-B" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+
+    <ProductAssoc productId="samsungZFold4" productIdTo="SMGFO4-1-R" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductAssoc productId="samsungZFold4" productIdTo="SMGFO4-1-B" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductAssoc productId="samsungZFold4" productIdTo="SMGFO4-2-R" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductAssoc productId="samsungZFold4" productIdTo="SMGFO4-2-B" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+
+    <ProductAssoc productId="oneplus11r" productIdTo="OPS11R-1-R" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductAssoc productId="oneplus11r" productIdTo="OPS11R-1-B" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductAssoc productId="oneplus11r" productIdTo="OPS11R-2-R" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductAssoc productId="oneplus11r" productIdTo="OPS11R-2-B" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+
+    <ProductAssoc productId="oneplus10r" productIdTo="OPS10R-1-R" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductAssoc productId="oneplus10r" productIdTo="OPS10R-1-B" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductAssoc productId="oneplus10r" productIdTo="OPS10R-2-R" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductAssoc productId="oneplus10r" productIdTo="OPS10R-2-B" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+
+    <ProductAssoc productId="oneplusNord2T" productIdTo="OPSN2T-1-R" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductAssoc productId="oneplusNord2T" productIdTo="OPSN2T-1-B" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductAssoc productId="oneplusNord2T" productIdTo="OPSN2T-2-R" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+    <ProductAssoc productId="oneplusNord2T" productIdTo="OPSN2T-2-B" productAssocTypeId="PRODUCT_VARIANT" fromDate="2021-08-24 00:00:00.000"/>
+
+
+<!--    Product Price-->
+
+
+    <ProductPrice productId="IPH13-1-R" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000" price="61999"/>
+    <ProductPrice productId="IPH13-1-B" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000"  price="55000"/>
+    <ProductPrice productId="IPH13-2-R" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000"  price="88000"/>
+    <ProductPrice productId="IPH13-2-B" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000"  price="89000"/>
+
+    <ProductPrice productId="IPH14-1-R" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000" price="71999"/>
+    <ProductPrice productId="IPH14-1-B" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000"  price="65000"/>
+    <ProductPrice productId="IPH14-2-R" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000"  price="98000"/>
+    <ProductPrice productId="IPH14-2-B" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000"  price="189000"/>
+
+    <ProductPrice productId="IPH14P-1-R" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000" price="121999"/>
+    <ProductPrice productId="IPH14P-1-B" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000"  price="85000"/>
+    <ProductPrice productId="IPH14P-2-R" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000"  price="98000"/>
+    <ProductPrice productId="IPH14P-2-B" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000"  price="189000"/>
+
+    <ProductPrice productId="SMGS22-1-R" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000" price="61999"/>
+    <ProductPrice productId="SMGS22-1-B" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000"  price="55000"/>
+    <ProductPrice productId="SMGS22-2-R" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000"  price="88000"/>
+    <ProductPrice productId="SMGS22-2-B" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000"  price="89000"/>
+
+    <ProductPrice productId="SMGS21-1-R" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000" price="61999"/>
+    <ProductPrice productId="SMGS21-1-B" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000"  price="55000"/>
+    <ProductPrice productId="SMGS21-2-R" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000"  price="88000"/>
+    <ProductPrice productId="SMGS21-2-B" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000"  price="89000"/>
+
+    <ProductPrice productId="SMGFO4-1-R" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000" price="61999"/>
+    <ProductPrice productId="SMGFO4-1-B" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000"  price="55000"/>
+    <ProductPrice productId="SMGFO4-2-R" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000"  price="88000"/>
+    <ProductPrice productId="SMGFO4-2-B" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000"  price="89000"/>
+
+    <ProductPrice productId="OPS10R-1-R" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000" price="61999"/>
+    <ProductPrice productId="OPS10R-1-B" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000"  price="55000"/>
+    <ProductPrice productId="OPS10R-2-R" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000"  price="88000"/>
+    <ProductPrice productId="OPS10R-2-B" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000"  price="89000"/>
+
+    <ProductPrice productId="OPS11R-1-R" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000" price="61999"/>
+    <ProductPrice productId="OPS11R-1-B" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000"  price="55000"/>
+    <ProductPrice productId="OPS11R-2-R" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000"  price="88000"/>
+    <ProductPrice productId="OPS11R-2-B" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000"  price="89000"/>
+
+    <ProductPrice productId="OPSN2T-1-R" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000" price="61999"/>
+    <ProductPrice productId="OPSN2T-1-B" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000"  price="55000"/>
+    <ProductPrice productId="OPSN2T-2-R" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000"  price="88000"/>
+    <ProductPrice productId="OPSN2T-2-B" productPriceTypeId="MAXIMUM_PRICE" productPricePurposeId="PURCHASE" currencyUomId="INR" productStoreGroupId="mobilex_indore" fromDate="2023-08-03 00:00:00.000"  price="89000"/>
+
+
+</entity-engine-xml>
